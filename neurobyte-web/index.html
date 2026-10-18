@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" class="bg-base" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Rank 102 candidate videos from a 3-second EEG recording." />
+    <script>
+      // Apply the saved theme (default: light, regardless of OS) before first paint, so there is no flash.
+      try {
+        var m = localStorage.getItem("neurobytes:theme");
+        if (m !== "light" && m !== "dark") m = "light";
+        document.documentElement.dataset.theme = m;
+      } catch (e) {}
+    </script>
+    <title>NeuroBytes — EEG → Video Retrieval</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

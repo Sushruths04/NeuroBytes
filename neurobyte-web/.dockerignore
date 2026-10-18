@@ -1,0 +1,11 @@
+node_modules
+dist
+logs
+e2e/out
+test-results
+.vite
+.DS_Store
+*.log
+.env*
+Dockerfile
+.dockerignore
