@@ -1,0 +1,20 @@
+# Context is the repo root; send only what neurobyte-web/Dockerfile copies.
+*
+!combo
+!src
+!results/winfuse
+!submissions/C13
+!neurobyte-web
+**/__pycache__
+**/*.pyc
+**/.DS_Store
+neurobyte-web/node_modules
+neurobyte-web/dist
+neurobyte-web/logs
+neurobyte-web/e2e/out
+neurobyte-web/test-results
+neurobyte-web/.vite
+neurobyte-web/presentation
+neurobyte-web/Dockerfile*
+**/.env*
+**/*.log

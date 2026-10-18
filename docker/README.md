@@ -30,7 +30,6 @@ D=/path/to/eeg-mind-reading-challenge
 docker run --rm -v "$D:/data:ro" ghcr.io/sushruths04/neurobytes evaluate
 docker run --rm -v "$D:/data:ro" -v "$PWD/out:/out" ghcr.io/sushruths04/neurobytes predict
 docker run --rm -v "$PWD/out:/out" ghcr.io/sushruths04/neurobytes replay
-docker run --rm -p 127.0.0.1:8080:8080 -v "$D:/data:ro" -v "$PWD/out:/out" ghcr.io/sushruths04/neurobytes web
 ```
 
 Windows (PowerShell):
@@ -46,7 +45,6 @@ docker run --rm -v "${D}:/data:ro" -v "${PWD}\out:/out" ghcr.io/sushruths04/neur
 | `predict` | Recompute h6/h10 scores from mounted test EEG, combine with shipped component scores, write the ranked candidate lists to `/out`. |
 | `evaluate` | Score development recordings sub-01..04; expected 36.03% top-1, 67.16% top-5, mean rank 6.00 on CPU. |
 | `replay` | Copy the frozen prediction lists; no model inference. |
-| `web` | Serve the neurobyte-web UI + read-only data API on port 8080 (override with `PORT`). Ranking uses the baked-in winfuse scores and model matrices; the `/data:ro` mount adds the raw EEG, dev labels and stimulus videos. Publish on `127.0.0.1` only (no auth). See [../neurobyte-web/README.md](../neurobyte-web/README.md). |
 
 Predictions are 102 × 102 integer arrays. Each row ranks video IDs 1001–1102 in the original recording order. CSLS and Sinkhorn operate jointly over a person's test recordings; the no-Sinkhorn fallback still uses batch hub correction.
 

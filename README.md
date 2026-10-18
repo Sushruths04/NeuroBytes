@@ -115,6 +115,7 @@ On Windows PowerShell, write the paths as `-v "C:\path\to\eeg-mind-reading-chall
 | `submissions/` | submitted prediction files (C13 and the fallback without Sinkhorn) |
 | `scripts/` | `reproduce_c13.sh` (quickstart), `run_c13_pipeline.sh` (full rebuild), feature extraction, format check |
 | `docker/` | CPU inference image (`build.sh`, `Dockerfile`, `entrypoint.sh`) |
+| `neurobyte-web/` | web UI for the results, with its own image `ghcr.io/sushruths04/neurobytes-web` (see its README) |
 | `configs/` | frozen C13 configuration, T2 settings, pretrained-model lock file |
 | `verification/` | checksums and the clean-machine verification record |
 | `tests/` | unit tests (`pytest tests`) |

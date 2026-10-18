@@ -123,35 +123,34 @@ for those names, interpolates between them, and fades out away from the electrod
 
 ## Docker
 
-The web UI ships inside the repo's **single, existing** image (`../docker/`), the same
-image that runs C13 inference — not a separate Dockerfile. `../docker/build.sh` prebuilds
-this frontend bundle, stages the data-API server and the per-model matrices, and the
-image adds a small Node runtime to serve them. The challenge data is handled exactly as
-for the inference commands: it is **not** baked in and is mounted read-only at `/data`.
+The web UI has **its own image**, `ghcr.io/sushruths04/neurobytes-web`, separate from the
+C13 inference image (`../docker/`, `ghcr.io/sushruths04/neurobytes`), which it does not change.
+`Dockerfile` here is multi-stage: a Python stage exports the C13/C10/WF matrices from the
+repo's `combo/` (and checks C13 sub-05/06 against `submissions/C13`), a Node stage builds the
+frontend, and the runtime is Node only. The challenge data and captions are **not** baked in.
 
 ```bash
-# from the neurobytes repo root (needs node >= 22 and python+numpy+scikit-learn on the host):
-bash docker/build.sh                 # builds the image incl. the web bundle + model matrices
-#   SKIP_WEB=1 bash docker/build.sh  # inference-only image, no web UI
+# build from the repo root (needs only docker):
+docker build -f neurobyte-web/Dockerfile -t ghcr.io/sushruths04/neurobytes-web .
 
 D=/path/to/eeg-mind-reading-challenge
 docker run --rm -p 127.0.0.1:8080:8080 -v "$D:/data:ro" -v "$PWD/out:/out" \
-  ghcr.io/sushruths04/neurobytes web
+  ghcr.io/sushruths04/neurobytes-web
 # open http://127.0.0.1:8080
+# with captions:  -v /path/to/captions.json:/captions.json:ro -e NEUROBYTES_CAPTIONS=/captions.json
 ```
 
-On Windows PowerShell, write the mount as `-v "${D}:/data:ro"`.
+On Windows PowerShell, write the mount as `-v "${D}:/data:ro"`. The image is published from
+the Actions tab (workflow `web`, linux/amd64 and linux/arm64).
 
 - The ranking (winfuse scores + model matrices) works even with **no** `/data` mount,
-  because those artefacts are baked into the image; the mount only adds the raw EEG,
-  dev labels and stimulus videos.
-- Inside the image the server reads: data `/data`, submission `/app/repo/results/winfuse`,
-  models `/app/neurobytes_models`; ground-truth reads are logged to `/out/label_access.log`.
+  because those artefacts are in the image; the mount only adds the raw EEG, dev labels
+  and stimulus videos.
+- Inside the image the server reads: data `/data`, submission `/app/winfuse`, models
+  `/app/models`; ground-truth reads are logged to `/out/label_access.log`.
 - `PORT` defaults to 8080. The other `NEUROBYTES_*` variables above still override paths.
 - **Publish on `127.0.0.1` only.** The API has no authentication and serves the EEG,
   videos and dev labels; put it behind an authenticating proxy before exposing it.
-- The other commands of the same image are unchanged: `replay`, `predict`, `evaluate`
-  (see [../docker/README.md](../docker/README.md)).
 
 ## Security
 
