@@ -1,0 +1,92 @@
+{
+  "name": "WF4.winfuse.crosssubject",
+  "version": "submission1",
+  "scorers": 509,
+  "score_transform": "rrf+hub",
+  "weight_mode": "equal",
+  "postprocess": "sinkhorn",
+  "postprocess_params": {
+    "iters": 3,
+    "tau": 0.5
+  },
+  "eeg_pca": 150,
+  "emb_pca": 256,
+  "n_folds": 5,
+  "alphas": "logspace(-1,6,15)",
+  "seed": 1234,
+  "val_frac": 0.25,
+  "val_pool_size": 102,
+  "selection": "mean validation top-5 over 5 independent 75/25 train/val splits",
+  "split_seeds": [
+    1234,
+    7,
+    99,
+    2024,
+    777
+  ],
+  "SUBJECT_INDEPENDENCE": {
+    "fusion_weights_are_subject_specific": false,
+    "distinct_weight_values": 1,
+    "weight_value": 0.00196464,
+    "explanation": "weight_mode is 'equal': all 509 scorers carry weight 1/509. The fusion contains no subject-specific parameter of any kind, so it transfers to sub-05/06 unchanged. The ONLY per-subject part is each ridge regression, which must be fitted on that subject's own training recordings -- a ridge fitted on sub-01 cannot map sub-05's EEG, because the 17 channels are a different mixture per person. The brief allows each subject's own training data, and sub-05/06 have 952 and 850 training trials respectively.",
+    "leave_one_subject_out_top1": 0.2892,
+    "leave_one_subject_out_top5": 0.5858,
+    "all_four_subjects_top1": 0.3039,
+    "all_four_subjects_top5": 0.5956,
+    "optimism_pp_top5": 0.98,
+    "loo_note": "selection redone on 3 subjects and evaluated on the never-seen 4th, for each of the 4: pooled top-5 58.58% against 59.56% when all 4 are used to choose. So using a held-out subject in selection is worth only +0.98 pp, which is the measured cost of transferring to an unseen person."
+  },
+  "measured_dev_test": {
+    "subjects": "sub-01..04",
+    "n_trials": 408,
+    "top1": 0.3064,
+    "top5": 0.6054,
+    "median_rank": 4.0,
+    "mean_rank": 7.59,
+    "top5_ci95": [
+      0.5561,
+      0.6531
+    ],
+    "chance_top1": 0.00980392156862745,
+    "chance_top5": 0.049019607843137254,
+    "previous_without_alignment": {
+      "top1": 0.3039,
+      "top5": 0.5956
+    }
+  },
+  "assumes_bijection": "the 102 recordings map one-to-one onto the 102 candidate videos. Verified for sub-01..04. If false for a subject, set postprocess to 'none'.",
+  "held_out_submission": {
+    "files": [
+      "ranked/sub-05_ranked_candidate_list.npy",
+      "ranked/sub-06_ranked_candidate_list.npy"
+    ],
+    "produced_by": "each held-out subject's 509 ridges fitted on its own training recordings (952 for sub-05, 850 for sub-06) POOLED with all five other subjects' training recordings via the cross-subject alignment, then the same subject-independent 509 equal weights, then the bijection step. sub-06 has the fewest own recordings of any subject, so it is the one expected to benefit most from borrowing.",
+    "rules_followed": "the brief permits 'the training data of all six subjects may be used for training' and forbids training or fine-tuning on any test set. Their test RECORDINGS are read for inference only, which the task requires; their test LABELS do not exist in this repository and no sub-01..04 recording or label enters the sub-05/06 path, so they are never used as reference templates.",
+    "expected_accuracy": "unknown and unknowable to us. Leave-one-subject-out on the development subjects gives top-1 28.92%, top-5 58.58%, which is our honest expectation, but per-subject top-5 ranges from 46% to 70% so individual variation dominates. sub-06 has the fewest training recordings of any subject (850)."
+  },
+  "bijection_permitted_by_organisers": {
+    "confirmed": "2026-10-17",
+    "quote": "Yes, you can use it jointly.",
+    "note": "the joint/transductive processing the bijection step requires is explicitly permitted; this was the only open rules question affecting the headline"
+  },
+  "preprocessing_disclosed_by_organisers": {
+    "already_applied": "band-pass 0.1-40 Hz; blink components removed; 1000->500 Hz; pre-stimulus used to remove drift",
+    "our_chain_kept": "50 Hz notch -> 0.5-40 Hz -> decimate to 250 Hz -> z-score (train stats)",
+    "why": "swept against the disclosed chain on 124 scorers: ours 36.63% vs 35.22% for matching their 0.1-40 band. The extra 0.5 Hz high-pass removes residual drift and 0.5 Hz is a true optimum. The 50 Hz notch is redundant (0.01 pp) but kept rather than re-freezing for noise."
+  },
+  "cross_subject_alignment": {
+    "what": "each subject's 509 ridges are now fitted on its own training recordings PLUS every other subject's training recordings, after mapping each donor's EEG features into this subject's own EEG feature space with a ridge learned on the videos both saw. Subjects share many training videos (695 seen by all six), which is what makes the mapping estimable.",
+    "why": "every subject is otherwise modelled in complete isolation from ~950 recordings. The brief permits 'the training data of all six subjects may be used for training'.",
+    "subject_independent": true,
+    "subject_independence_note": "the PROCEDURE is identical for every subject and contains no subject-specific constant: map the others into my space using videos we share, then pool. It applies unchanged to a never-seen subject. The fusion weights remain 509 equal values. Only training data is ever pooled -- no test recording or label of any subject enters another subject's model.",
+    "validated": {
+      "protocol": "bijective validation pools on held-out TRAINING videos",
+      "own_data_only_top5": 0.403,
+      "donor_aligned_top5": 0.4185,
+      "gain_pp": 1.54,
+      "scaling_trend": "+0.87 pp at 9 channels, +1.30 pp at 24, +1.54 pp at 509",
+      "all_subjects_improved": true
+    },
+    "control": "pooling donors WITHOUT alignment collapses to 29.23% from 36.28%, which is the control proving the EEG feature spaces are genuinely not comparable across subjects and that the alignment is doing the work"
+  }
+}

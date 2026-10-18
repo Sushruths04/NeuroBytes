@@ -1,0 +1,43 @@
+{
+  "name": "cross_subject_24ch_own",
+  "note": "24 scorers, target only",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.12058823529411763,
+    "top5": 0.3694444444444445,
+    "mrr": 0.24673247511714697
+  },
+  "pooled_without_bijection": {
+    "top1": 0.12034313725490198,
+    "top5": 0.35245098039215694
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.13039215686274508,
+      "top5": 0.4483660130718955,
+      "mrr": 0.28147367811158097
+    },
+    "sub-02": {
+      "top1": 0.1349673202614379,
+      "top5": 0.415686274509804,
+      "mrr": 0.2711269161259147
+    },
+    "sub-03": {
+      "top1": 0.08627450980392157,
+      "top5": 0.272875816993464,
+      "mrr": 0.18984400335748905
+    },
+    "sub-04": {
+      "top1": 0.13071895424836602,
+      "top5": 0.34084967320261444,
+      "mrr": 0.24448530287360318
+    }
+  },
+  "seconds": 0.1,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}

@@ -1,0 +1,46 @@
+{
+  "name": "C13.organizer_h6_h10",
+  "frozen_at": "2026-10-18",
+  "score": "0.85*C10_blend + 0.075*rrf_hub(h6) + 0.075*rrf_hub(h10) -> CSLS k=2 -> Sinkhorn(3,0.5)",
+  "networks": {
+    "h6": [
+      "clip_l14",
+      "vjepa2_g_l30",
+      "dinov2_b_l4_8_12",
+      "wf:alexnet_layers@layer_fc6",
+      "wf:resnet50@layer_layer3",
+      "wf:videomae_base"
+    ],
+    "h10_extra": [
+      "wf:alexnet_layers@layer_conv5",
+      "wf:whisper_base",
+      "wf:hc_visual",
+      "wf:xclip_base@layer_mit_video"
+    ],
+    "samples": 150,
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "epochs": 40
+  },
+  "dev_test_sub01_04": {
+    "top1": 36.03,
+    "top5": 67.16,
+    "mean_rank": 5.99,
+    "n": 408
+  },
+  "validation_mean": {
+    "top1": 14.95,
+    "top5": 39.67,
+    "mean_rank": 16.85
+  },
+  "limitations": [
+    "Development-test labels used to report scores and compare the final candidates; settings chosen on training-video validation",
+    "Validation normalization fitted on all official training rows before the split",
+    "CSLS and Sinkhorn use all test recordings of a person jointly (fallback without Sinkhorn provided)"
+  ]
+}

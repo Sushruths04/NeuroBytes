@@ -1,0 +1,30 @@
+{
+  "sub-01": {
+    "mean_cv_encoding_r": 0.04971962279062568,
+    "max_cv_encoding_r": 0.2710693771697183,
+    "frac_dims_r_gt_0.1": 0.21,
+    "frac_dims_r_gt_0.05": 0.42,
+    "n_dims": 100
+  },
+  "sub-02": {
+    "mean_cv_encoding_r": 0.044021433965550444,
+    "max_cv_encoding_r": 0.2289976981556435,
+    "frac_dims_r_gt_0.1": 0.16,
+    "frac_dims_r_gt_0.05": 0.44,
+    "n_dims": 100
+  },
+  "sub-03": {
+    "mean_cv_encoding_r": 0.02657508142649739,
+    "max_cv_encoding_r": 0.3596334941288601,
+    "frac_dims_r_gt_0.1": 0.08,
+    "frac_dims_r_gt_0.05": 0.28,
+    "n_dims": 100
+  },
+  "sub-04": {
+    "mean_cv_encoding_r": 0.03191248089690359,
+    "max_cv_encoding_r": 0.2686288780189707,
+    "frac_dims_r_gt_0.1": 0.08,
+    "frac_dims_r_gt_0.05": 0.31,
+    "n_dims": 100
+  }
+}

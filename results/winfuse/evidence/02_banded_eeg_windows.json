@@ -1,0 +1,43 @@
+{
+  "name": "02_banded_eeg_windows",
+  "note": "banded ridge over EEG latency windows ['win_50_200', 'win_100_300', 'win_50_400', 'win_200_400'] for resnet50@layer_layer3; per-window alpha by inner-CV retrieval-MRR coordinate search",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.09746732026143791,
+    "top5": 0.3234477124183007,
+    "mrr": 0.21734325673616067
+  },
+  "pooled_without_bijection": {
+    "top1": 0.10277777777777779,
+    "top5": 0.30351307189542487
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.11862745098039214,
+      "top5": 0.423202614379085,
+      "mrr": 0.2633652202984383
+    },
+    "sub-02": {
+      "top1": 0.10947712418300655,
+      "top5": 0.3483660130718956,
+      "mrr": 0.23276720467173256
+    },
+    "sub-03": {
+      "top1": 0.060130718954248374,
+      "top5": 0.2369281045751634,
+      "mrr": 0.1635548364792571
+    },
+    "sub-04": {
+      "top1": 0.1016339869281046,
+      "top5": 0.28529411764705886,
+      "mrr": 0.20968576549521475
+    }
+  },
+  "seconds": 215.1,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}

@@ -1,0 +1,3 @@
+# Fallback data location, used only when WINFUSE_DATA_ROOT is not set (all documented commands set it via DATA=...).
+# Put or symlink the official challenge folder (trn/, tst/, tst_stim/) at <repo>/data to use it.
+challenge_root: data

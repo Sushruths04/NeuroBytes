@@ -1,0 +1,18 @@
+NeuroBytes Source-Available License
+Copyright (c) 2026 Sushruth Shivaraju and Ayush Shetty (Team NeuroBytes). All rights reserved.
+
+1. Viewing. You may view and read the source code, documentation and model weights in this repository.
+
+2. Evaluation by the challenge organizers and jury. The organizers and jury of the SchubKI National AI Hackathon 2026
+   (EEG mind-reading challenge) may download, install, run, reproduce and evaluate this software and its model weights
+   for the purpose of assessing this submission, including in their own computing environments.
+
+3. All other uses require prior written permission from the copyright holders. This includes copying, modifying,
+   merging, publishing, distributing, sublicensing, using in other projects or products, training other models on
+   these weights, and commercial use. Requests: sushruths04@gmail.com
+
+4. Third-party components. Pretrained models listed in MODELS.md are not part of this repository and remain under
+   their own licenses. Their weights are downloaded from their original sources.
+
+5. No warranty. The software is provided "as is", without warranty of any kind. In no event shall the authors be
+   liable for any claim, damages or other liability arising from its use.

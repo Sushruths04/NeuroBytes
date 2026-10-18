@@ -1,0 +1,43 @@
+{
+  "name": "exp4_sub03_fix_osc_pca",
+  "note": "same channels; project out leading k PCs of each subject's trial-demeaned window matrix, k chosen from that subject's own training alpha fraction (a0=0.15, scale=60, kmax=8); general per-subject rule, runs unchanged on sub-05/06",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.12598039215686277,
+    "top5": 0.3531045751633988,
+    "mrr": 0.24322982440883467
+  },
+  "pooled_without_bijection": {
+    "top1": 0.1204248366013072,
+    "top5": 0.32303921568627453
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.16176470588235298,
+      "top5": 0.4356209150326798,
+      "mrr": 0.29572928395251075
+    },
+    "sub-02": {
+      "top1": 0.13790849673202613,
+      "top5": 0.3732026143790851,
+      "mrr": 0.25745153785131514
+    },
+    "sub-03": {
+      "top1": 0.08823529411764705,
+      "top5": 0.27973856209150333,
+      "mrr": 0.1926061455133017
+    },
+    "sub-04": {
+      "top1": 0.11601307189542484,
+      "top5": 0.3238562091503269,
+      "mrr": 0.22713233031821117
+    }
+  },
+  "seconds": 10.8,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}

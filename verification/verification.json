@@ -1,0 +1,19 @@
+{
+  "environment": "clean Modal CPU machine (debian-slim, Python 3.11, requirements.txt) and Docker image built from docker/Dockerfile, 18 Oct 2026",
+  "dev_test": {
+    "top1": 36.03,
+    "top5": 67.16,
+    "mean_rank_cpu": 6.0,
+    "mean_rank_gpu": 5.99
+  },
+  "retrain_same_seeds": "bit-identical (6 participants, h6 and h10)",
+  "retrain_new_seeds_5_9": {
+    "top1": 34.31,
+    "top5": 67.65,
+    "mean_rank": 5.98
+  },
+  "regenerated_predictions_vs_submission": {
+    "top1_identical": "100%",
+    "top5_set_identical": "100%"
+  }
+}

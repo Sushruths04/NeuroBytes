@@ -1,0 +1,200 @@
+{
+  "protocol": "T2 features: fine windows 50-400 ms (400-1000 dropped, weight ~0) with V-JEPA 2 giant L30 and S3D streams; same splits/seeds/draws, paired",
+  "subjects": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "outer_folds": 5,
+  "inner_folds": 5,
+  "draws": 20,
+  "candidate_count": 102,
+  "baseline_bands": [
+    "siglip_b16",
+    "clip_b32",
+    "dinov2_b_l4_8_12",
+    "lowlevel_flat"
+  ],
+  "decoder_weight": 2.0,
+  "target": {
+    "t0_ms": 50,
+    "t1_ms": 1000,
+    "offset": true,
+    "fs_out": 100
+  },
+  "streams": {
+    "image": [
+      "siglip_b16",
+      "dinov2_b_l4_8_12"
+    ],
+    "video": [
+      "vjepa2_l_l12_18_24",
+      "videomae_b_l6_9_12"
+    ],
+    "audio": [
+      "clap_audio"
+    ],
+    "lowlevel": [
+      "lowlevel_flat"
+    ],
+    "vjepag": [
+      "vjepa2_g_l30"
+    ],
+    "s3d": [
+      "s3d_k400"
+    ]
+  },
+  "windows_ms": {
+    "F1": [
+      50,
+      100
+    ],
+    "F2": [
+      100,
+      150
+    ],
+    "F3": [
+      150,
+      200
+    ],
+    "F4": [
+      200,
+      250
+    ],
+    "F5": [
+      250,
+      300
+    ],
+    "F6": [
+      300,
+      350
+    ],
+    "F7": [
+      350,
+      400
+    ]
+  },
+  "fusion_l2": 1.0,
+  "variants": {
+    "fine7": [
+      "image@F1",
+      "image@F2",
+      "image@F3",
+      "image@F4",
+      "image@F5",
+      "image@F6",
+      "image@F7",
+      "video@F1",
+      "video@F2",
+      "video@F3",
+      "video@F4",
+      "video@F5",
+      "video@F6",
+      "video@F7",
+      "audio@F1",
+      "audio@F2",
+      "audio@F3",
+      "audio@F4",
+      "audio@F5",
+      "audio@F6",
+      "audio@F7",
+      "lowlevel@F1",
+      "lowlevel@F2",
+      "lowlevel@F3",
+      "lowlevel@F4",
+      "lowlevel@F5",
+      "lowlevel@F6",
+      "lowlevel@F7"
+    ],
+    "fine7_plus": [
+      "image@F1",
+      "image@F2",
+      "image@F3",
+      "image@F4",
+      "image@F5",
+      "image@F6",
+      "image@F7",
+      "video@F1",
+      "video@F2",
+      "video@F3",
+      "video@F4",
+      "video@F5",
+      "video@F6",
+      "video@F7",
+      "audio@F1",
+      "audio@F2",
+      "audio@F3",
+      "audio@F4",
+      "audio@F5",
+      "audio@F6",
+      "audio@F7",
+      "lowlevel@F1",
+      "lowlevel@F2",
+      "lowlevel@F3",
+      "lowlevel@F4",
+      "lowlevel@F5",
+      "lowlevel@F6",
+      "lowlevel@F7",
+      "vjepag@F1",
+      "vjepag@F2",
+      "vjepag@F3",
+      "vjepag@F4",
+      "vjepag@F5",
+      "vjepag@F6",
+      "vjepag@F7",
+      "s3d@F1",
+      "s3d@F2",
+      "s3d@F3",
+      "s3d@F4",
+      "s3d@F5",
+      "s3d@F6",
+      "s3d@F7"
+    ],
+    "fine7_swap": [
+      "image@F1",
+      "image@F2",
+      "image@F3",
+      "image@F4",
+      "image@F5",
+      "image@F6",
+      "image@F7",
+      "vjepag@F1",
+      "vjepag@F2",
+      "vjepag@F3",
+      "vjepag@F4",
+      "vjepag@F5",
+      "vjepag@F6",
+      "vjepag@F7",
+      "s3d@F1",
+      "s3d@F2",
+      "s3d@F3",
+      "s3d@F4",
+      "s3d@F5",
+      "s3d@F6",
+      "s3d@F7",
+      "audio@F1",
+      "audio@F2",
+      "audio@F3",
+      "audio@F4",
+      "audio@F5",
+      "audio@F6",
+      "audio@F7",
+      "lowlevel@F1",
+      "lowlevel@F2",
+      "lowlevel@F3",
+      "lowlevel@F4",
+      "lowlevel@F5",
+      "lowlevel@F6",
+      "lowlevel@F7"
+    ]
+  },
+  "notes": "fine7 = 4 old streams (check vs grid_fine 25.47 without the 400-1000 window); fine7_plus adds V-JEPA 2 giant L30 and S3D; fine7_swap replaces the old video stream by them. Layer choice from scripts/layer_screen.py (single-band, one seed).",
+  "sealed": "No sub05/06 data and no official test labels. No external data.",
+  "variant_smooth": {}
+}

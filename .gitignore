@@ -1,0 +1,22 @@
+# Never commit data, videos, frames or large caches (challenge rule)
+*.mp4
+*.jpg
+*.png.tmp
+data/
+frames/
+features/
+*.npz
+!weights/**/*.npz
+outputs/cache/
+__pycache__/
+*.egg-info/
+.venv/
+.ipynb_checkpoints/
+
+# winfuse generated artefacts: all regenerable, see docs/WINFUSE_RUNBOOK.md
+/cache
+/results/*
+!/results/winfuse/
+/logs
+/reports
+/decisions

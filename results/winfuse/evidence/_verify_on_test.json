@@ -1,0 +1,59 @@
+{
+  "frozen_config": "top509_all|rrf+hub|equal+sinkhorn",
+  "n_scorers": 509,
+  "method": "all scorers refitted from scratch on each subject's training videos; test recordings read directly from tst/sub-XX_tst.npy; submission files written, format-validated, then scored against tst_stim/sub-XX_tst_stim.npy",
+  "channel_cache_used": false,
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.35294117647058826,
+      "top5": 0.696078431372549,
+      "mean_rank": 6.2254901960784315,
+      "median_rank": 3.0,
+      "mrr": 0.503195303379089,
+      "submission_file": "results/verify_on_test/sub-01_ranked_candidate_list.npy",
+      "seconds": 106.5
+    },
+    "sub-02": {
+      "top1": 0.3333333333333333,
+      "top5": 0.6176470588235294,
+      "mean_rank": 7.205882352941177,
+      "median_rank": 4.0,
+      "mrr": 0.46084265469827884,
+      "submission_file": "results/verify_on_test/sub-02_ranked_candidate_list.npy",
+      "seconds": 100.3
+    },
+    "sub-03": {
+      "top1": 0.19607843137254902,
+      "top5": 0.46078431372549017,
+      "mean_rank": 11.098039215686274,
+      "median_rank": 6.0,
+      "mrr": 0.33089307836996223,
+      "submission_file": "results/verify_on_test/sub-03_ranked_candidate_list.npy",
+      "seconds": 98.3
+    },
+    "sub-04": {
+      "top1": 0.3235294117647059,
+      "top5": 0.6078431372549019,
+      "mean_rank": 7.049019607843137,
+      "median_rank": 3.0,
+      "mrr": 0.4710768737170347,
+      "submission_file": "results/verify_on_test/sub-04_ranked_candidate_list.npy",
+      "seconds": 98.4
+    }
+  },
+  "pooled": {
+    "top1": 0.3014705882352941,
+    "top5": 0.5955882352941176,
+    "k_top1": 123,
+    "k_top5": 243,
+    "n_trials": 408,
+    "mean_rank": 7.894607843137255,
+    "median_rank": 4.0,
+    "mrr": 0.44150197754109116
+  },
+  "published_pooled": {
+    "top1": 0.30392156862745096,
+    "top5": 0.5955882352941176
+  },
+  "matches_published": false
+}

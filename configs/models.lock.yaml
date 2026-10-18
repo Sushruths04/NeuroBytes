@@ -1,0 +1,15 @@
+# Every public pretrained model used, with exact version (challenge rule). All released before 16 Oct 2026.
+# Environment: Python 3.11.15, torch 2.4.1+cu121 (run on CPU), torchvision 0.19.1, transformers 4.46.3, open_clip_torch 2.29.0,
+# scikit-learn (see .venv), himalaya 0.4.6. Feature caches store `model` and `revision`; reproduction check: scripts/check_feature_repro.py.
+alexnet_f3:         {source: torchvision, name: alexnet, weights: IMAGENET1K_V1, layer: features.3 (conv2), frames: 8, used_in: organizer-baseline reproduction}
+siglip_b16:         {source: huggingface, name: google/siglip-base-patch16-224, output: pooled image embedding, frames: 8, used_in: FROZEN}
+siglip_b16_l4_8_12: {source: huggingface, name: google/siglip-base-patch16-224, output: mean tokens of vision layers 4/8/12, frames: 8}
+clip_b32:           {source: open_clip, name: ViT-B-32, pretrained: openai, output: image embedding, frames: 8, used_in: FROZEN}
+clip_l14:           {source: open_clip, name: ViT-L-14, pretrained: openai, output: image embedding, frames: 8}
+dinov2_b_l4_8_12:   {source: huggingface, name: facebook/dinov2-base, output: mean tokens of layers 4/8/12, frames: 8, used_in: FROZEN}
+videomae_b_l6_9_12: {source: huggingface, name: MCG-NJU/videomae-base, output: mean tokens of layers 6/9/12, frames: 16}
+s3d_k400:           {source: torchvision, name: s3d, weights: KINETICS400_V1, output: mean of backbone blocks 6/11/15, frames: 16}
+vjepa2_l_l12_18_24: {source: huggingface, name: facebook/vjepa2-vitl-fpc64-256, transformers: 4.53.2 (Modal image), output: mean patch tokens of layers 12/18/24, frames: 64}
+lowlevel_official:  {source: own code, script: scripts/extract_lowlevel_official.py, content: luminance, contrast, motion, L-R and T-B differences, audio RMS envelope at 100 Hz, used_in: FROZEN (as lowlevel_flat, 100 ms bins)}
+clap_audio:         {source: huggingface, name: laion/larger_clap_general, revision: ada0c23a36c4e8582805bb38fec3905903f18b41, output: "audio projection (512); audio resampled to 48 kHz mono; silent clips get the embedding of 3 s silence", script: scripts/modal_audio.py, used_in: T1.grid}
+vjepa2_g_l30:       {source: huggingface, name: facebook/vjepa2-vitg-fpc64-256, output: "mean patch tokens of layer 30 (1408-d), 64 frames", script: scripts/modal_features_v2.py (layers_vjepa2_g.npz), used_in: T2 development}

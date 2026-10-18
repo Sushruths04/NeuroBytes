@@ -1,0 +1,43 @@
+{
+  "name": "02_separate_eeg_windows",
+  "note": "MATCHED ARM: 4 separate dec scorers over the same windows for resnet50@layer_layer3, fused by rrf+hub equal weights",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.09101307189542485,
+    "top5": 0.329983660130719,
+    "mrr": 0.21486045948202995
+  },
+  "pooled_without_bijection": {
+    "top1": 0.09379084967320261,
+    "top5": 0.3267973856209151
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.11666666666666665,
+      "top5": 0.39738562091503277,
+      "mrr": 0.25359518226599526
+    },
+    "sub-02": {
+      "top1": 0.09542483660130721,
+      "top5": 0.3562091503267975,
+      "mrr": 0.22598449825441164
+    },
+    "sub-03": {
+      "top1": 0.06241830065359478,
+      "top5": 0.2503267973856209,
+      "mrr": 0.1686604343012841
+    },
+    "sub-04": {
+      "top1": 0.08954248366013072,
+      "top5": 0.3160130718954249,
+      "mrr": 0.2112017231064288
+    }
+  },
+  "seconds": 4.4,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}

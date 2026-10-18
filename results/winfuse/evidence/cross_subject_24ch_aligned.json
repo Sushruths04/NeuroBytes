@@ -1,0 +1,43 @@
+{
+  "name": "cross_subject_24ch_aligned",
+  "note": "24 scorers, donor-aligned pooling",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.11977124183006535,
+    "top5": 0.3800653594771243,
+    "mrr": 0.25063987650247455
+  },
+  "pooled_without_bijection": {
+    "top1": 0.12214052287581698,
+    "top5": 0.3616013071895426
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.13137254901960785,
+      "top5": 0.45196078431372555,
+      "mrr": 0.2832124153223999
+    },
+    "sub-02": {
+      "top1": 0.13169934640522876,
+      "top5": 0.4160130718954249,
+      "mrr": 0.2720507027001287
+    },
+    "sub-03": {
+      "top1": 0.0872549019607843,
+      "top5": 0.2826797385620915,
+      "mrr": 0.1953966860284761
+    },
+    "sub-04": {
+      "top1": 0.1287581699346405,
+      "top5": 0.36960784313725503,
+      "mrr": 0.2518997019588936
+    }
+  },
+  "seconds": 0.1,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}

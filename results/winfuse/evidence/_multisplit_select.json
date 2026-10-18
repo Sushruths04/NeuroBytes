@@ -1,0 +1,115 @@
+{
+  "method": "mean validation top-5 over 5 independent 75/25 splits",
+  "seeds": [
+    1234,
+    7,
+    99,
+    2024,
+    777
+  ],
+  "selected": "top509_all|rrf+hub|equal",
+  "mean_val_top5": 0.35633946013538614,
+  "sd_val_top5": 0.014473895797318274,
+  "ranking": [
+    {
+      "config": "top509_all|rrf+hub|equal",
+      "mean_val_top5": 0.35633946013538614,
+      "sd": 0.014473895797318274
+    },
+    {
+      "config": "top509_all|rrf+hub|skill",
+      "mean_val_top5": 0.35362834851842806,
+      "sd": 0.014190461611291845
+    },
+    {
+      "config": "top509_all|rrf+hub|skill2",
+      "mean_val_top5": 0.35104814497180603,
+      "sd": 0.015676740089947187
+    },
+    {
+      "config": "top509_all|z+hub|equal",
+      "mean_val_top5": 0.35069471583940237,
+      "sd": 0.012207770461022019
+    },
+    {
+      "config": "top509_all|z+hub+z|equal",
+      "mean_val_top5": 0.3503650564145805,
+      "sd": 0.012772809246934904
+    },
+    {
+      "config": "top509_all|zscore|equal",
+      "mean_val_top5": 0.34861384486406066,
+      "sd": 0.013232909434522093
+    },
+    {
+      "config": "top509_all|z+hub|skill",
+      "mean_val_top5": 0.3460795399722946,
+      "sd": 0.01277747575223092
+    },
+    {
+      "config": "top509_all|z+hub+z|skill",
+      "mean_val_top5": 0.3459879276666852,
+      "sd": 0.013277654609205316
+    },
+    {
+      "config": "top509_all|zscore|skill",
+      "mean_val_top5": 0.34554638370288143,
+      "sd": 0.014461174598734144
+    },
+    {
+      "config": "top509_all|z+hub|skill2",
+      "mean_val_top5": 0.34255979028823375,
+      "sd": 0.014184367726926269
+    },
+    {
+      "config": "top509_all|z+hub+z|skill2",
+      "mean_val_top5": 0.3424247453383513,
+      "sd": 0.01472468243741694
+    },
+    {
+      "config": "top509_all|zscore|skill2",
+      "mean_val_top5": 0.3422777954151539,
+      "sd": 0.015677117343433047
+    },
+    {
+      "config": "top509_all|rrf|equal",
+      "mean_val_top5": 0.3419129631674543,
+      "sd": 0.012424607509760235
+    },
+    {
+      "config": "top509_all|rrf|skill",
+      "mean_val_top5": 0.3396933665935772,
+      "sd": 0.014942550136434777
+    },
+    {
+      "config": "top509_all|rrf|skill2",
+      "mean_val_top5": 0.3362331026738531,
+      "sd": 0.015395392288911654
+    },
+    {
+      "config": "dec15_enc8|rrf+hub|equal",
+      "mean_val_top5": 0.3248629824017462,
+      "sd": 0.018747799906647284
+    },
+    {
+      "config": "top25_all|rrf+hub|skill",
+      "mean_val_top5": 0.32347579858030284,
+      "sd": 0.014583349563154931
+    },
+    {
+      "config": "top25_all|rrf+hub|equal",
+      "mean_val_top5": 0.3232785601050569,
+      "sd": 0.014212611209256374
+    },
+    {
+      "config": "top25_all|rrf+hub|skill2",
+      "mean_val_top5": 0.3221547956025864,
+      "sd": 0.01689485408787273
+    },
+    {
+      "config": "top20_all|rrf+hub|skill",
+      "mean_val_top5": 0.32199351327304715,
+      "sd": 0.020607939930493962
+    }
+  ]
+}

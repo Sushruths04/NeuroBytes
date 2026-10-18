@@ -1,0 +1,43 @@
+{
+  "name": "01b_24ch_aligned",
+  "note": "24 channels (3 eeg x 8 stim), donor-aligned pooling",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.12483660130718954,
+    "top5": 0.3811274509803922,
+    "mrr": 0.2537245159891107
+  },
+  "pooled_without_bijection": {
+    "top1": 0.12034313725490195,
+    "top5": 0.3598039215686275
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.1372549019607843,
+      "top5": 0.4441176470588236,
+      "mrr": 0.2838578758485843
+    },
+    "sub-02": {
+      "top1": 0.13104575163398693,
+      "top5": 0.40424836601307196,
+      "mrr": 0.26855580773699594
+    },
+    "sub-03": {
+      "top1": 0.10522875816993464,
+      "top5": 0.31503267973856214,
+      "mrr": 0.21704476170271422
+    },
+    "sub-04": {
+      "top1": 0.12581699346405226,
+      "top5": 0.3611111111111112,
+      "mrr": 0.2454396186681484
+    }
+  },
+  "seconds": 0.1,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}

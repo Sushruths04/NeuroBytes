@@ -1,0 +1,34 @@
+{
+  "frozen_config": "top509_all|rrf+hub|skill2",
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.2647058823529412,
+      "top5": 0.5980392156862745,
+      "median_rank": 4.0
+    },
+    "sub-02": {
+      "top1": 0.2647058823529412,
+      "top5": 0.5392156862745098,
+      "median_rank": 5.0
+    },
+    "sub-03": {
+      "top1": 0.14705882352941177,
+      "top5": 0.4215686274509804,
+      "median_rank": 7.5
+    },
+    "sub-04": {
+      "top1": 0.24509803921568626,
+      "top5": 0.5392156862745098,
+      "median_rank": 4.5
+    }
+  },
+  "pooled": {
+    "top1": 0.23039215686274508,
+    "top5": 0.5245098039215687,
+    "k1": 94,
+    "k5": 214,
+    "n": 408,
+    "median_rank": 5.0
+  },
+  "note": "single-split selection at seed 1234, kept for the robustness comparison; superseded by the multi-split freeze"
+}

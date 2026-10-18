@@ -1,0 +1,14 @@
+{
+  "name": "T2.swap",
+  "frozen_at": "2026-10-17T13:25 (committed before tests A and B)",
+  "config": "configs/development_tempo_t2feat.json",
+  "variant": "fine7_swap",
+  "procedure": "J1 anchor + 35 stream x window encoder/decoder scorers: streams image (SigLIP, DINOv2-B), V-JEPA 2 giant L30, S3D, CLAP audio, low-level; windows 50-100, 100-150, ..., 350-400 ms; nonnegative residual weights (l2=1.0), learned per subject on calibration splits of its own training videos (mean over 3 seeds), then refit on all training videos",
+  "why_this_variant": "Development (nested sub-01..04 CV, paired): fine7_swap 24.58 vs T1.grid 26.38 (-1.80, t95 -3.14..-0.45, all 4 subjects better); fine7_plus 24.54 is equal within noise but needs 7 more scorers, so the simpler one is chosen.",
+  "tests_preregistered": {
+    "A_final_cv_sub05_06": "scripts/run_tempo_mind.py --final-test --config configs/development_tempo_t2feat.json on sub-05/06 training videos; compare fine7_swap with T1.grid from outputs/mindread_tempo_final_sub0506_20261017 (same splits) via scripts/compare_runs.py. NOTE: second use of sub-05/06 training videos as a final test (first was T1).",
+    "B_dev_test_sub01_04": "scripts/tempo_frozen.py --dev-test --frozen configs/frozen_T2.json: one logged look; compare with T1.grid's logged dev test (top-1 11.52%, top-5 35.54%, mean rank 15.27)."
+  },
+  "decision_rule": "Replace T1.grid by T2.swap only if T2.swap has lower mean rank than T1.grid in BOTH test A (mean over sub-05/06) and test B (mean over sub-01..04), and top-5 is not lower in either. Otherwise keep T1.grid. No re-tuning after A or B.",
+  "postprocess": "none (Hungarian OFF, CSLS OFF)"
+}

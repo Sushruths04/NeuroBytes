@@ -1,0 +1,43 @@
+{
+  "name": "01_cross_subject_aligned_w0.25",
+  "note": "cross-subject pooled_aligned, donor_weight=0.25; EEG=['win_50_400', 'win_50_300', 'win_80_320'] STIM=['resnet50@layer_layer3', 'alexnet_layers@layer_fc6', 'dinov2_base@layer_block09_meanpatch']",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.12230392156862746,
+    "top5": 0.36388888888888893,
+    "mrr": 0.24771623200948922
+  },
+  "pooled_without_bijection": {
+    "top1": 0.12352941176470589,
+    "top5": 0.3475490196078431
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.15359477124183007,
+      "top5": 0.4584967320261438,
+      "mrr": 0.29962053425929924
+    },
+    "sub-02": {
+      "top1": 0.1434640522875817,
+      "top5": 0.3833333333333334,
+      "mrr": 0.26858047525125145
+    },
+    "sub-03": {
+      "top1": 0.07679738562091504,
+      "top5": 0.2816993464052287,
+      "mrr": 0.18864506040158716
+    },
+    "sub-04": {
+      "top1": 0.11535947712418301,
+      "top5": 0.33202614379084977,
+      "mrr": 0.23401885812581896
+    }
+  },
+  "seconds": 71.5,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}

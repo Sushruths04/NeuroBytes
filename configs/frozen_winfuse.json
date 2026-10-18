@@ -1,0 +1,21 @@
+{
+ "name": "WF1.winfuse",
+ "pipeline": "winfuse",
+ "frozen_at": "2026-10-17 (selected on the validation split before the dev-test read)",
+ "procedure": "509 scorers = EEG feature set x stimulus representation x direction. EEG sets: 15 latency windows (50-200 ... 50-600 ms) of the preprocessed trace plus raw_signal, erp_windows, band_power. Stimulus: 15 models including per-layer variants of AlexNet, ResNet-50, DINOv2, CLIP, VideoMAE. Each scorer is a ridge (EEG PCA 150, embedding PCA 256, alpha by 5-fold CV) fitted on that subject's own training videos; decoding scorers rank candidates by cosine in centred embedding space, encoding scorers by reliability-weighted correlation in EEG space. Scores are reciprocal-rank transformed, hubness-corrected by removing each candidate's column mean, then combined with ONE subject-independent weight vector (w = max(val_MRR - chance, 0)^2, normalised).",
+ "why": "Validation (25% held-out training videos, 102-candidate pools): best of 240 configurations at top-5 37.56%. Latency windowing is the dominant factor; the best single scorer (win_50_400 x resnet50 layer3) reaches validation MRR 0.20 against 0.12 for the best full-epoch scorer.",
+ "weights": {
+  "mode": "skill2",
+  "n": 509,
+  "sha256_12": "8660c01395e0",
+  "subjects_used": [
+   "sub-01",
+   "sub-02",
+   "sub-03",
+   "sub-04"
+  ],
+  "note": "subject-independent: the same vector applies to sub-05/06"
+ },
+ "postprocess": "hubness correction ON (column mean removal); Hungarian OFF; CSLS OFF",
+ "config_file": "results/compare_embed/_frozen_pipeline.json (full 509 weights)"
+}

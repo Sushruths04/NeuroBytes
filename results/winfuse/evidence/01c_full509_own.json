@@ -1,0 +1,43 @@
+{
+  "name": "01c_full509_own",
+  "note": "all 509 channels, target only",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.1513888888888889,
+    "top5": 0.40302287581699353,
+    "mrr": 0.2774940689919499
+  },
+  "pooled_without_bijection": {
+    "top1": 0.13088235294117648,
+    "top5": 0.3784313725490197
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.1712418300653595,
+      "top5": 0.4480392156862746,
+      "mrr": 0.30806184786553853
+    },
+    "sub-02": {
+      "top1": 0.18006535947712418,
+      "top5": 0.4398692810457517,
+      "mrr": 0.30817692458565266
+    },
+    "sub-03": {
+      "top1": 0.09607843137254904,
+      "top5": 0.3241830065359478,
+      "mrr": 0.2121549363087099
+    },
+    "sub-04": {
+      "top1": 0.1581699346405229,
+      "top5": 0.4000000000000001,
+      "mrr": 0.28158256720789837
+    }
+  },
+  "seconds": 0.1,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}

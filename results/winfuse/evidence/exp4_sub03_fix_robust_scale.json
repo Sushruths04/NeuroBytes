@@ -1,0 +1,43 @@
+{
+  "name": "exp4_sub03_fix_robust_scale",
+  "note": "general per-subject remedy 'robust_scale' on the window CNN decoders; erp decoders untouched; fitted on TRAIN only; runs unchanged on sub-05/06",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.12426470588235296,
+    "top5": 0.3529411764705883,
+    "mrr": 0.24314685931262592
+  },
+  "pooled_without_bijection": {
+    "top1": 0.11584967320261438,
+    "top5": 0.32508169934640524
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.15915032679738567,
+      "top5": 0.4205882352941177,
+      "mrr": 0.2895786909137773
+    },
+    "sub-02": {
+      "top1": 0.13790849673202613,
+      "top5": 0.38300653594771256,
+      "mrr": 0.2626086194918801
+    },
+    "sub-03": {
+      "top1": 0.09019607843137255,
+      "top5": 0.2784313725490196,
+      "mrr": 0.19475277927530354
+    },
+    "sub-04": {
+      "top1": 0.10980392156862744,
+      "top5": 0.3297385620915033,
+      "mrr": 0.22564734756954272
+    }
+  },
+  "seconds": 10.2,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}

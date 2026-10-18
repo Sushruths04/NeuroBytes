@@ -1,0 +1,43 @@
+{
+  "name": "02_banded_stim_reps",
+  "note": "stimulus-side banding: 3 reps predicted from win_50_400, per-rep weight by inner-CV retrieval-MRR coordinate search",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.11511437908496733,
+    "top5": 0.3482843137254903,
+    "mrr": 0.23583785071431973
+  },
+  "pooled_without_bijection": {
+    "top1": 0.10776143790849674,
+    "top5": 0.31315359477124194
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.13790849673202615,
+      "top5": 0.40228758169934653,
+      "mrr": 0.2704358896443654
+    },
+    "sub-02": {
+      "top1": 0.12450980392156863,
+      "top5": 0.3807189542483661,
+      "mrr": 0.25189693365360294
+    },
+    "sub-03": {
+      "top1": 0.07287581699346404,
+      "top5": 0.26633986928104575,
+      "mrr": 0.17878557505510367
+    },
+    "sub-04": {
+      "top1": 0.12516339869281046,
+      "top5": 0.34379084967320267,
+      "mrr": 0.24223300450420696
+    }
+  },
+  "seconds": 17.5,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}

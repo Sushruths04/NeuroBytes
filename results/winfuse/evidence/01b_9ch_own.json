@@ -1,0 +1,43 @@
+{
+  "name": "01b_9ch_own",
+  "note": "9 channels (3 eeg x 3 stim), target only",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.11821895424836601,
+    "top5": 0.36364379084967324,
+    "mrr": 0.24368049780977485
+  },
+  "pooled_without_bijection": {
+    "top1": 0.11658496732026144,
+    "top5": 0.3426470588235294
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.14379084967320263,
+      "top5": 0.45882352941176474,
+      "mrr": 0.292122369363012
+    },
+    "sub-02": {
+      "top1": 0.1372549019607843,
+      "top5": 0.39346405228758174,
+      "mrr": 0.2661076912782525
+    },
+    "sub-03": {
+      "top1": 0.08235294117647059,
+      "top5": 0.272875816993464,
+      "mrr": 0.18968516254367065
+    },
+    "sub-04": {
+      "top1": 0.10947712418300655,
+      "top5": 0.32941176470588246,
+      "mrr": 0.22680676805416436
+    }
+  },
+  "seconds": 0.1,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}

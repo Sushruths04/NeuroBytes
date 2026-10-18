@@ -1,0 +1,43 @@
+{
+  "name": "02_separate_stim_reps",
+  "note": "MATCHED ARM: 3 separate dec scorers (win_50_400 x each rep), fused by rrf+hub equal weights",
+  "subjects": [
+    "sub-01",
+    "sub-02",
+    "sub-03",
+    "sub-04"
+  ],
+  "pooled_with_bijection": {
+    "top1": 0.10955882352941176,
+    "top5": 0.3615196078431373,
+    "mrr": 0.23710961933771443
+  },
+  "pooled_without_bijection": {
+    "top1": 0.10980392156862745,
+    "top5": 0.3363562091503268
+  },
+  "per_subject": {
+    "sub-01": {
+      "top1": 0.1326797385620915,
+      "top5": 0.4287581699346406,
+      "mrr": 0.27550610374873796
+    },
+    "sub-02": {
+      "top1": 0.11666666666666667,
+      "top5": 0.39640522875816997,
+      "mrr": 0.2522369561723354
+    },
+    "sub-03": {
+      "top1": 0.07973856209150326,
+      "top5": 0.2764705882352941,
+      "mrr": 0.18982004235839936
+    },
+    "sub-04": {
+      "top1": 0.10915032679738562,
+      "top5": 0.3444444444444445,
+      "mrr": 0.23087537507138514
+    }
+  },
+  "seconds": 5.5,
+  "protocol": "validation only; bijective pools of 102 built from held-out TRAINING videos; no test data touched"
+}
