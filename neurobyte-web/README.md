@@ -1,6 +1,6 @@
 # NeuroBytes web — EEG → video retrieval frontend
 
-A local web UI for the NeuroDecode ranking. You upload a subject's test recording and
+A local web UI for the NeuroBytes C13 ranking. You upload a subject's test recording and
 watch the pipeline step through it: the EEG trace of each recording with the model's
 latency windows shaded, the video paired with it, and a brain graphic whose 17 nodes
 glow with each channel's activity. When it finishes you can browse all 102 recordings
@@ -28,22 +28,22 @@ and the choice is remembered per browser. (C11/C12 are omitted here because thei
 network inputs are not shipped in this repo.)
 
 **Pages.**
-- `#/` upload, with the selected model's headline numbers.
-- `#/analysis` the animated run, then the results. After the top 10, "Where the true
-  video lands" and "Per person" show the selected model's ranking pooled over the
-  labelled people sub-01..04 (read from the exported ranked lists and labels, never
-  sub-05/06); the EEG plot and the recordings list share one card, followed by the
-  Inference stats card at the bottom.
-- `#/analytics` the J1 → C13 progression, the frequency spectrum of the open
-  recording, and every experiment, including the rejected ones.
+- `#/` upload, with the selected model's headline numbers. Below it, the results: the
+  progression from the baseline to C13, the frequency spectrum of the open recording,
+  and every experiment, including the rejected ones.
+- `#/analysis` the animated run, then the results, in this order: person tabs and stat
+  cards; predicted video and top 5; top 10; "Where the true video lands" and "Per person"
+  (the selected model's ranking pooled over the labelled people sub-01..04, never
+  sub-05/06); frequency analysis; the EEG of the open recording with the recordings list;
+  inference stats.
 - `#/science` "Why it works". This combines the team's findings with the winfuse
   design choices and their citations (from `results/winfuse/WHY_IT_WORKS.md`).
 
 The sun/moon button switches light/dark mode; light is the default, regardless of the OS setting. The uploaded recording is kept in this
 browser's IndexedDB, so a reload keeps you on your results; "Upload another" clears it.
 
-React 19 + Vite 8 + Tailwind CSS 4. The dark theme is Nord, the light theme is tea
-green, both from `color-scheme.json`; `theme.test.ts` fails if they disagree.
+React 19 + Vite 8 + Tailwind CSS 4. The dark theme is web2, the light theme is tea
+green (`earth_tones`), both from `color-scheme.json`; `theme.test.ts` fails if they disagree.
 
 ## Run (from inside the repo)
 
@@ -55,7 +55,7 @@ python scripts/export_models.py --team-repo .. --models C13,C10,WF
 npm run dev            # http://127.0.0.1:5173
 npm test               # vitest
 npm run build          # typecheck + production bundle
-# production server (no Vite): npm run build && node server/serve.ts   (port 8080)
+# production server (no Vite, Node >= 22.18): npm run build && node server/serve.ts   (port 8080)
 
 # to also serve the raw EEG / labels / videos, point DATA at the challenge folder:
 DATA=/path/to/eeg-mind-reading-challenge npm run dev
@@ -86,7 +86,7 @@ rebuild only), `tst/` (test recordings `sub-0X_tst.npy`) and `tst_stim/` (dev la
 `sub-0X_tst_stim.npy`); videos live in `stimuli_test/`.
 
 `scripts/export_models.py` writes the models directory from the repo
-(`combo/c10.py`, `c13.py` and their shipped inputs). Each `_pre.npy` is the fused
+(`combo/c10.py`, `c11.py` and the shipped inputs in `combo/c10_inputs`, `c13_inputs`). Each `_pre.npy` is the fused
 score matrix *before* post-processing; each `_ranked.npy` is the team code's final
 ranking, used only to check the browser's result. The script asserts that its C13
 output for sub-05/06 is identical to `submissions/C13`. WF (winfuse) also exports; if
@@ -114,7 +114,7 @@ folder.
 `rank.test.ts` checks the browser post-processing against the team code: each shipped
 model × 6 subjects, every ranking must match row for row. It also checks that each
 model's pooled dev accuracy equals its frozen config (C13 36.03% / 67.16%) when labels
-are present. The results page repeats the row check live ("Matches team code 102/102").
+are present. The results page repeats the row check live ("Verified ranking 102/102").
 
 Channels are labelled with the electrode names the organisers supplied on 18 Oct
 (file order Pz P3 P7 O1 Oz O2 P4 P8 P1 P5 PO7 PO3 POz PO4 PO8 P6 P2, see
@@ -130,7 +130,8 @@ repo's `combo/` (and checks C13 sub-05/06 against `submissions/C13`), a Node sta
 frontend, and the runtime is Node only. The challenge data and captions are **not** baked in.
 
 ```bash
-# build from the repo root (needs only docker):
+docker pull ghcr.io/sushruths04/neurobytes-web:latest      # ready-made (linux/amd64, linux/arm64)
+# or build it from the repo root (needs only docker):
 docker build -f neurobyte-web/Dockerfile -t ghcr.io/sushruths04/neurobytes-web .
 
 D=/path/to/eeg-mind-reading-challenge
@@ -140,8 +141,8 @@ docker run --rm -p 127.0.0.1:8080:8080 -v "$D:/data:ro" -v "$PWD/out:/out" \
 # with captions:  -v /path/to/captions.json:/captions.json:ro -e NEUROBYTES_CAPTIONS=/captions.json
 ```
 
-On Windows PowerShell, write the mount as `-v "${D}:/data:ro"`. The image is published from
-the Actions tab (workflow `web`, linux/amd64 and linux/arm64).
+On Windows PowerShell, write the mounts as `-v "${D}:/data:ro"` and `-v "${PWD}\out:/out"`.
+The image is published from the Actions tab (workflow `web`).
 
 - The ranking (winfuse scores + model matrices) works even with **no** `/data` mount,
   because those artefacts are in the image; the mount only adds the raw EEG, dev labels

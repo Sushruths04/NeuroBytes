@@ -91,6 +91,15 @@ docker run --rm -v "/path/to/eeg-mind-reading-challenge:/data:ro" -v "$PWD/out:/
 
 On Windows PowerShell, write the paths as `-v "C:\path\to\eeg-mind-reading-challenge:/data:ro"` and `-v "${PWD}\out:/out"`. To build the image yourself, see [docker/README.md](docker/README.md).
 
+**Web UI (separate image).** To browse the results (predicted videos, top 10, where the true video lands, per-person accuracy, EEG), run the second image and open http://127.0.0.1:8080:
+
+```bash
+docker pull ghcr.io/sushruths04/neurobytes-web:latest
+docker run --rm -p 127.0.0.1:8080:8080 -v "/path/to/eeg-mind-reading-challenge:/data:ro" ghcr.io/sushruths04/neurobytes-web
+```
+
+The challenge data is mounted, never included in either image. Details: [neurobyte-web/README.md](neurobyte-web/README.md).
+
 ## For the organizers
 
 0. **Fastest check: no data, weights or network needed.** It runs in seconds from the shipped component scores:
@@ -100,7 +109,7 @@ On Windows PowerShell, write the paths as `-v "C:\path\to\eeg-mind-reading-chall
    ```
 1. **Submitted predictions:** `submissions/C13/`. To check the format: `python scripts/check_submission.py submissions/C13`.
 2. **Regenerate them from the raw test EEG:** use the quickstart or Docker (above).
-3. **Retrain everything**, optionally with more training data: `scripts/run_c13_pipeline.sh` (2.8 GB download, about 6 GB of free disk; a CUDA GPU is recommended, see [PIPELINE.md](PIPELINE.md)). See [PIPELINE.md](PIPELINE.md).
+3. **Retrain everything**, optionally with more training data: `scripts/run_c13_pipeline.sh` (2.8 GB download, about 6 GB of free disk; a CUDA GPU is recommended, see [PIPELINE.md](PIPELINE.md)).
 4. **Pretrained models used:** [MODELS.md](MODELS.md).
 
 ## Repository map

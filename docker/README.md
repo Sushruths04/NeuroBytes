@@ -4,6 +4,8 @@ The image combines the h6/h10 network weights, code, pinned CPU libraries and sh
 
 Docker is optional: the same results come from the source quickstart in the main [README](../README.md). The image works on Windows (Docker Desktop), on Intel and Apple Silicon Macs, and on Linux.
 
+This image is the model only. The web UI has its own image, `ghcr.io/sushruths04/neurobytes-web`; see [../neurobyte-web/README.md](../neurobyte-web/README.md#docker).
+
 ## 1. Get the image
 
 **Pull the ready-made image** (recommended; built for linux/amd64 and linux/arm64):
