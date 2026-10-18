@@ -1,6 +1,6 @@
 # NeuroBytes: EEG-to-video retrieval
 
-**SchubKI National AI Hackathon 2026, EEG mind-reading challenge. Team NeuroBytes: Sushruth Shivaraju and Ayush Shetty.**
+**SchubKI National AI Hackathon 2026, EEG mind-reading challenge. Team BierBytes: Sushruth Shivaraju and Ayush Shetty.**
 
 From a 3-second, 17-channel EEG recording, rank the 102 candidate videos so that the video the person was watching comes first.
 

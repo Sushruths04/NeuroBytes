@@ -249,7 +249,7 @@ for ring, (rad, n) in enumerate([(0.35, 8), (0.8, 14), (1.25, 20)]):
         d = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(dx), Inches(dy), Inches(0.07), Inches(0.07))
         _solid(d, col); d.line.fill.background(); _no_shadow(d)
 txt(s, 0.6, 6.95, 9, 0.4,
-    [[("Team NeuroBytes — Sushruth Shivaraju & Ayush Shetty", 10, True, MIST)]])
+    [[("Team BierBytes — Sushruth Shivaraju & Ayush Shetty", 10, True, MIST)]])
 txt(s, 11.9, 7.03, 0.9, 0.35, [[("01", 9, True, MIST, MONO)]], align=PP_ALIGN.RIGHT)
 
 # ===================================================================== SLIDE 2 — how it works

@@ -1,7 +1,7 @@
 [project]
 name = "mindread"
 version = "0.1.0"
-description = "EEG-to-video identification, SchubKI National AI Hackathon 2026 (team NeuroBytes)"
+description = "EEG-to-video identification, SchubKI National AI Hackathon 2026 (team BierBytes)"
 requires-python = "==3.11.*"
 dependencies = ["numpy", "scipy", "scikit-learn", "pyyaml"]
 

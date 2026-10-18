@@ -4,7 +4,7 @@ About 540 words, roughly 4 minutes at a steady pace (~135 words/min). Timings ar
 
 ## Slide 1 — See what the brain watched (0:00–0:40)
 
-Hi, we're team NeuroBytes: Sushruth Shivaraju and Ayush Shetty. Our question was simple: can you tell which video someone watched, just from their brain activity? We take three seconds of EEG from 17 electrodes over the visual cortex and rank 102 candidate videos. The model never sees the video at test time, only the brain signal. Our final system, C13, puts the right video first 36% of the time and in the top five 67% of the time. Chance is under one percent, so that's about 37 times better than guessing.
+Hi, we're team BierBytes: Sushruth Shivaraju and Ayush Shetty. Our question was simple: can you tell which video someone watched, just from their brain activity? We take three seconds of EEG from 17 electrodes over the visual cortex and rank 102 candidate videos. The model never sees the video at test time, only the brain signal. Our final system, C13, puts the right video first 36% of the time and in the top five 67% of the time. Chance is under one percent, so that's about 37 times better than guessing.
 
 ## Slide 2 — Three seconds, five steps (0:40–1:35)
 
