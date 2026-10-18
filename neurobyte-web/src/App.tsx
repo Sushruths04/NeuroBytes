@@ -406,6 +406,7 @@ function Header({ route, subject, model, onModel, available, go }: HeaderProps) 
           <path d="M7 21h4l2-4 2.5 6 3-10 2 8h4.5" fill="none" stroke={t["on-iris"]} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <span className="text-[15px] font-semibold tracking-[0.12em] text-text">NEUROBYTES</span>
+        <span className="text-[11px] tracking-wide text-subtle">by team BierBytes</span>
       </a>
       <nav aria-label="Main" className="flex items-center gap-1">
         {link("home", "Home")}
