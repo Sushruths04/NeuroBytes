@@ -17,7 +17,11 @@ const OUT = path.join(import.meta.dirname, "out");
 const headed = process.argv.includes("--headed");
 fs.mkdirSync(OUT, { recursive: true });
 
-const browser = await chromium.launch({ headless: !headed });
+const browser = await chromium.launch({
+  headless: !headed,
+  executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined,
+  args: ["--no-sandbox", "--disable-setuid-sandbox"]
+});
 const page = await (await browser.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: "dark" })).newPage();
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));

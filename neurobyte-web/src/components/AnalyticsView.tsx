@@ -14,7 +14,7 @@ export function AnalyticsSections({ model }: { model: ModelId }) {
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_var(--spine-gutter)_minmax(0,1fr)]">
         <div>
         <p className="eyebrow">Results</p>
-        <h2 id="analytics-title" className="mt-4 text-4xl sm:text-5xl">From 11% to <span className="grad-word">35% top-1</span></h2>
+        <h2 id="analytics-title" className="mt-4 text-4xl sm:text-5xl">From 11% to <span className="grad-word">36% top-1</span></h2>
         <p className="mt-3 max-w-2xl text-base font-light text-subtle">
           Official dev test, sub-01..04 (408 recordings, 102 candidates each). Numbers from the team's frozen configs.
         </p>

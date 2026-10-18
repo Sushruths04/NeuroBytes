@@ -43,3 +43,20 @@ export async function fetchSample(sub: string): Promise<ArrayBuffer> {
 }
 
 export const videoUrl = (id: number) => `/api/video/${id}`;
+
+/**
+ * Qwen2.5-VL one-line captions of the test videos, keyed by id. Display only.
+ * Returns {} on any failure so the results page still works without captions.
+ */
+export async function fetchCaptions(): Promise<Record<number, string>> {
+  try {
+    const raw = (await (await get("/api/captions")).json()) as Record<string, unknown>;
+    const out: Record<number, string> = {};
+    for (const [k, v] of Object.entries(raw)) if (typeof v === "string") out[Number(k)] = v;
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+export const captionOf = (caps: Record<number, string>, id: number): string | null => caps[id] ?? null;

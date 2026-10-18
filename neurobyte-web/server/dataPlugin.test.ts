@@ -18,6 +18,7 @@ const SUB = path.join(TMP, "submission");
 const MOD = path.join(TMP, "models");
 const VIDEO = crypto.randomBytes(5000);
 const EEG = crypto.randomBytes(4096);
+const CAPS = path.join(TMP, "captions.json");
 
 function write(p: string, b: Buffer | string) {
   fs.mkdirSync(path.dirname(p), { recursive: true });
@@ -51,9 +52,10 @@ beforeAll(async () => {
     postprocess_params: { iters: 3, tau: 0.5 },
   }));
   write(path.join(TMP, "README.md"), "secret");
+  write(CAPS, JSON.stringify({ "1": "train clip", "1001": "A dog runs.", "1050": 42, "1102": "A man golfs.", "1103": "outside" }));
 
   const appDir = path.join(TMP, "app");
-  const env = { NEUROBYTES_DATA_ROOT: DATA, NEUROBYTES_SUBMISSION_DIR: SUB, NEUROBYTES_MODELS_DIR: MOD };
+  const env = { NEUROBYTES_DATA_ROOT: DATA, NEUROBYTES_SUBMISSION_DIR: SUB, NEUROBYTES_MODELS_DIR: MOD, NEUROBYTES_CAPTIONS: CAPS };
   pathsOn = resolvePaths(appDir, env);
   off = on = await serve(pathsOn);
 });
@@ -128,5 +130,21 @@ describe("data API", () => {
     expect((await fetch(`${off.base}/api/video/1001`, { headers: { Range: `bytes=${VIDEO.length + 10}-` } })).status).toBe(416);
     expect((await fetch(`${off.base}/api/video/1001`, { headers: { Range: "bytes=0-10,20-30" } })).status).toBe(416);
     expect((await fetch(`${off.base}/api/video/1002`)).status).toBe(404);
+  });
+
+  it("captions: only test ids 1001..1102 with string values; 404 when the file is missing", async () => {
+    expect(pathsOn.captions).toBe(CAPS);
+    const r = await fetch(`${on.base}/api/captions`);
+    expect(r.status).toBe(200);
+    expect(r.headers.get("content-type")).toBe("application/json");
+    expect(await r.json()).toEqual({ "1001": "A dog runs.", "1102": "A man golfs." });
+    const missing = await serve({ ...pathsOn, captions: path.join(TMP, "nope", "captions.json") });
+    try {
+      const m = await fetch(`${missing.base}/api/captions`);
+      expect(m.status).toBe(404);
+      expect(await m.text()).toBe("captions not found");
+    } finally {
+      await new Promise<void>((res) => missing.server.close(() => res()));
+    }
   });
 });

@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "e2e:scroll": "node e2e/scroll.mjs"
+    "e2e:scroll": "node e2e/scroll.mjs",
+    "e2e:analysis": "node e2e/analysis.mjs"
   },
   "dependencies": {
     "react": "19.3.1",

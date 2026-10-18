@@ -67,7 +67,7 @@ export const SYSTEMS: System[] = [
     "name": "C13",
     "top1": 36.03,
     "top5": 67.16,
-    "note": "+ 2 neural nets",
+    "note": "+ 2 neural nets (h6, h10)",
     "final": true
   }
 ];

@@ -29,7 +29,11 @@ network inputs are not shipped in this repo.)
 
 **Pages.**
 - `#/` upload, with the selected model's headline numbers.
-- `#/analysis` the animated run, then the results.
+- `#/analysis` the animated run, then the results. After the top 10, "Where the true
+  video lands" and "Per person" show the selected model's ranking pooled over the
+  labelled people sub-01..04 (read from the exported ranked lists and labels, never
+  sub-05/06); the EEG plot and the recordings list share one card, followed by the
+  Inference stats card at the bottom.
 - `#/analytics` the J1 → C13 progression, the frequency spectrum of the open
   recording, and every experiment, including the rejected ones.
 - `#/science` "Why it works". This combines the team's findings with the winfuse
@@ -66,7 +70,14 @@ The server prints which paths it is using on startup.
 | `DATA` / `NEUROBYTES_DATA_ROOT` | challenge folder with `tst/`, `tst_stim/`, `stimuli_test/` (not in this repo) | `/data` in Docker; a sibling `eeg-mind-reading-challenge` checkout natively |
 | `NEUROBYTES_SUBMISSION_DIR` | winfuse: `scores/`, `ranked/`, `weights/config.json` | `../results/winfuse` |
 | `NEUROBYTES_MODELS_DIR` | `<model>/<sub>_pre.npy` and `<sub>_ranked.npy` for C13, C10, WF | `../results/neurobytes_models` |
+| `NEUROBYTES_CAPTIONS` | `captions.json`, Qwen2.5-VL one-line captions keyed by video id (not in this repo) | `<data>/captions.json` |
 | `NEUROBYTES_LABEL_LOG` | audit log of any ground-truth read | `logs/label_access.log` |
+
+Endpoints (all GET, see `server/dataPlugin.ts`): `/api/manifest`, `/api/scores/<sub>`,
+`/api/ranked/<sub>`, `/api/labels/<sub>` (sub-01..04 only, logged), `/api/model/<M>/<sub>/pre|ranked`,
+`/api/sample/<sub>`, `/api/video/<id>` and `/api/captions` (test ids 1001..1102 only; 404 if
+the file is missing, the results page then shows "caption unavailable"). Captions are display
+only: the model never uses them.
 
 The challenge data is handled exactly as in the top-level README: it is the organizers'
 data, so it is never committed and is supplied from outside (`DATA=...` natively, a

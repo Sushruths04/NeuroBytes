@@ -48,10 +48,9 @@ export function ScienceView() {
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-subtle">
           The final system, <b className="text-text">C13</b>, gets the watched video into its top 5 for{" "}
           <b className="text-text">67.16%</b> of recordings and ranks it first for <b className="text-text">36.03%</b> (chance:
-          4.90% / 0.98%), on sub-01..04. It combines two pipelines: <b className="text-text">winfuse</b> (509 ridge scorers,
-          30.64% / 60.54% on its own) and <b className="text-text">mindread</b> (77 feature scorers, a T2 encoder and two
-          contrastive networks). Most of the accuracy came from asking what the brain signal actually is and how the task is
-          built, not from bigger models.
+          4.90% / 0.98%), on sub-01..04. It combines complementary decoding approaches: 509 time-windowed visual decoders,
+          multi-modal video feature encoders (motion, semantics, audio), and two contrastive convolutional networks (h6, h10).
+          Most of the accuracy came from asking what the brain signal actually is and how the task is built, not from bigger models.
         </p>
       </section>
 

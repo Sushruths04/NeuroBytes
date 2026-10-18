@@ -49,7 +49,7 @@ export const MODELS: ModelInfo[] = [
     short: "C13",
     adds: "+ two contrastive networks (h6, h10)",
     formula: "0.85 × C10 blend + 0.075 × network h6 + 0.075 × network h10 → CSLS k=2 → Sinkhorn",
-    scorers: "509 winfuse ridges + 77 mindread scorers + T2 encoder + two contrastive networks",
+    scorers: "509 time-window decoders + 77 feature decoders + T2 encoder + two contrastive networks (h6, h10)",
     cslsK: 2,
     windows: [WINDOW_0_700],
     frozen: { top1: 36.03, top5: 67.16, meanRank: 5.99 },

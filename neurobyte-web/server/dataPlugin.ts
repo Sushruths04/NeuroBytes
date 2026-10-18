@@ -10,6 +10,8 @@
  *                                  M in C13, C12, C11, C10, WF (WF falls back to the submission dir)
  *   GET /api/sample/<sub>          tst/<sub>_tst.npy             (demo "select sample")
  *   GET /api/video/<id>            stimuli_test/<id>.mp4, with HTTP Range support
+ *   GET /api/captions              {"1001": "...", ..., "1102": "..."} Qwen2.5-VL captions of the
+ *                                  test videos, display only (never a model input, no labels)
  *
  * Every path is built from a whitelisted pattern, never from raw user input, so
  * there is no path traversal. No authentication: the dev/preview servers bind to
@@ -110,6 +112,19 @@ function logLabelRead(P: Paths, sub: string, req: Connect.IncomingMessage) {
   fs.appendFileSync(P.labelLog, line + "\n");
 }
 
+/** Captions of the test videos 1001..1102 only, as {"<id>": caption}; null if the file is missing. */
+export function loadCaptions(P: Paths): Record<string, string> | null {
+  if (!fs.existsSync(P.captions)) return null;
+  const raw: unknown = JSON.parse(fs.readFileSync(P.captions, "utf8"));
+  const out: Record<string, string> = {};
+  if (!raw || typeof raw !== "object") return out;
+  for (let id = FIRST_ID; id <= LAST_ID; id++) {
+    const v = (raw as Record<string, unknown>)[String(id)];
+    if (typeof v === "string") out[String(id)] = v;
+  }
+  return out;
+}
+
 function send(res: ServerResponse, code: number, body: string, type = "text/plain") {
   res.statusCode = code;
   res.setHeader("Content-Type", type);
@@ -167,6 +182,7 @@ function sendVideo(req: Connect.IncomingMessage, res: ServerResponse, p: string)
 
 export function createHandler(P: Paths): Connect.NextHandleFunction {
   let manifest: Manifest | null = null;
+  let captions: string | null = null;
   return (req, res, next) => {
     const url = (req.url ?? "").split("?")[0];
     if (!url.startsWith("/api/")) return next();
@@ -175,6 +191,15 @@ export function createHandler(P: Paths): Connect.NextHandleFunction {
     if (url === "/api/manifest") {
       manifest ??= buildManifest(P); // hashes are computed once
       return send(res, 200, JSON.stringify(manifest), "application/json");
+    }
+
+    if (url === "/api/captions") {
+      if (captions === null) {
+        const c = loadCaptions(P);
+        if (!c) return send(res, 404, "captions not found");
+        captions = JSON.stringify(c); // read once
+      }
+      return send(res, 200, captions, "application/json");
     }
 
     const mm = /^\/api\/model\/([^/]+)\/([^/]+)\/(pre|ranked)$/.exec(url);
@@ -221,7 +246,7 @@ export function dataPlugin(paths: Paths): Plugin {
     name: "neurobytes-data",
     configureServer(server) {
       server.config.logger.info(
-        `  data: ${paths.dataRoot}\n  submission: ${paths.submissionDir}\n  models: ${paths.modelsDir}\n  ground truth: sub-01..04 (reads logged to ${paths.labelLog})`,
+        `  data: ${paths.dataRoot}\n  submission: ${paths.submissionDir}\n  models: ${paths.modelsDir}\n  captions: ${paths.captions}\n  ground truth: sub-01..04 (reads logged to ${paths.labelLog})`,
       );
       server.middlewares.use(handler);
     },
