@@ -15,7 +15,24 @@ From a 3-second, 17-channel EEG recording, rank the 102 candidate videos so that
 - **Model weights:** release `v1.0` (`c13o_weights_20261018.tar.gz`, 161 MB).
 - **Pretrained models used** (exact names and versions): [MODELS.md](MODELS.md).
 - **Report (2 pages: approach, diagram, results, failure cases, lessons learned):** [report/BierBytes_Report.pdf](report/BierBytes_Report.pdf).
-- **Presentation:** [presentation/BierBytes_Final.pdf](presentation/BierBytes_Final.pdf) ([PowerPoint](presentation/BierBytes_Final.pptx)).
+- **Presentation:** [presentation/BierBytes_Final.pdf](presentation/BierBytes_Final.pdf) ([PowerPoint](presentation/BierBytes_Final.pptx)), video: [presentation/BierBytes_Final.mp4](presentation/BierBytes_Final.mp4).
+
+## Explore the results in our web app
+
+We warmly invite the jury to open the NeuroBytes web app. We put a lot of work into it, and it shows how and why the system works far better than tables can:
+
+- **Every recording:** the predicted video next to the video actually watched, the top 5 and top 10 with captions, and the EEG with its frequency spectrum.
+- **The whole development test at a glance:** where the true video lands among the 102 candidates, and the accuracy for each person.
+- **The steps live:** switch between models (C13, C10, winfuse) and turn the balancing step on and off to see the ranking change.
+- **Why it works:** each design choice, what we measured, and the published research behind it.
+
+One command (Docker Desktop on Windows or macOS, Docker Engine on Linux), then open http://127.0.0.1:8080:
+
+```bash
+docker run --rm -p 127.0.0.1:8080:8080 -v "/path/to/eeg-mind-reading-challenge:/data:ro" ghcr.io/sushruths04/neurobytes-web
+```
+
+On Windows PowerShell, write the mount as `-v "C:\path\to\eeg-mind-reading-challenge:/data:ro"`. Without the mount the rankings still load; the mount adds the EEG traces, the videos and the dev-test labels. Details: [neurobyte-web/README.md](neurobyte-web/README.md).
 
 ## Data
 
