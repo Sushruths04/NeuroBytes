@@ -14,7 +14,7 @@ From a 3-second, 17-channel EEG recording, rank the 102 candidate videos so that
 - **Predictions:** `submissions/C13/` (challenge format: one 102 × 102 integer array per test participant, video IDs 1001–1102, rows in the original recording order); fallback without Sinkhorn balancing: `submissions/C13_no_sinkhorn/`.
 - **Model weights:** release `v1.0` (`c13o_weights_20261018.tar.gz`, 161 MB).
 - **Pretrained models used** (exact names and versions): [MODELS.md](MODELS.md).
-- **Technical report** (preprocessing, every component, libraries, analyses): [REPORT.md](REPORT.md).
+- **Report (2 pages: approach, diagram, results, failure cases, lessons learned):** [report/BierBytes_Report.pdf](report/BierBytes_Report.pdf).
 - **Presentation:** [presentation/BierBytes_Final.pdf](presentation/BierBytes_Final.pdf) ([PowerPoint](presentation/BierBytes_Final.pptx)).
 
 ## Data

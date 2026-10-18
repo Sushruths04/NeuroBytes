@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NeuroBytes: EEG-to-video retrieval (Team BierBytes)</title>
+<style>
+  @page { size: A4; margin: 15mm 16mm; }
+  body { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10pt; line-height: 1.38; color: #1f2a1a; margin: 0; }
+  h1 { font-size: 19pt; margin: 0 0 2pt; letter-spacing: .3px; }
+  .sub { color: #5b6635; font-size: 9.5pt; margin-bottom: 10pt; }
+  h2 { font-size: 11.5pt; margin: 13pt 0 4pt; padding-bottom: 2pt; border-bottom: 1.5px solid #88994f; color: #2d331a; }
+  p { margin: 3pt 0 5pt; }
+  ul { margin: 2pt 0 5pt; padding-left: 15pt; }
+  li { margin: 1.5pt 0; }
+  table { border-collapse: collapse; width: 100%; margin: 4pt 0 6pt; font-size: 9.2pt; }
+  th, td { border-bottom: 1px solid #d9dcc8; padding: 3pt 5pt; text-align: left; }
+  th { background: #eef0e2; font-weight: 600; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.hl td { font-weight: 700; background: #f5f7ea; }
+  .kpi { display: flex; gap: 8pt; margin: 6pt 0 4pt; }
+  .kpi div { flex: 1; border: 1px solid #c9cfae; border-radius: 6pt; padding: 5pt 8pt; }
+  .kpi b { font-size: 16pt; display: block; color: #3d4a17; }
+  .kpi span { font-size: 8.5pt; color: #5b6635; }
+  code { font-family: "DejaVu Sans Mono", monospace; font-size: 8.6pt; background: #f1f2ea; padding: 0 2pt; border-radius: 2pt; }
+  .formula { font-family: "DejaVu Sans Mono", monospace; font-size: 8.4pt; background: #f4f5ee; border-left: 3px solid #88994f; padding: 4pt 7pt; margin: 4pt 0 6pt; white-space: pre-wrap; }
+  svg text { font-family: "Helvetica Neue", Arial, sans-serif; }
+  .two { display: flex; gap: 12pt; } .two > div { flex: 1; }
+  .small { font-size: 8.6pt; color: #4b5530; }
+  .page2 { break-before: page; }
+</style>
+</head>
+<body>
+
+<h1>NeuroBytes: EEG-to-video retrieval</h1>
+<div class="sub">Team BierBytes: Sushruth Shivaraju, Ayush Shetty · SchubKI National AI Hackathon 2026, EEG mind-reading challenge · <b>github.com/Sushruths04/neurobytes</b></div>
+
+<p><b>Task.</b> From a 3-second, 17-channel EEG recording over the visual cortex, rank the 102 candidate test videos so that the watched video comes first.</p>
+
+<div class="kpi">
+  <div><b>36.03%</b><span>top-1 (chance 0.98%)</span></div>
+  <div><b>67.16%</b><span>top-5 (chance 4.90%)</span></div>
+  <div><b>5.99</b><span>mean rank of 102 (chance 51.5)</span></div>
+</div>
+<p class="small">Official development test, sub-01..04, 408 recordings. Final system: C13. Predictions: <code>submissions/C13/</code>.</p>
+
+<h2>1. Approach</h2>
+<svg viewBox="0 0 700 190" width="100%" role="img" aria-label="C13 pipeline">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6635"/></marker></defs>
+  <g font-size="10.5" fill="#1f2a1a">
+    <rect x="4" y="66" width="96" height="58" rx="7" fill="#eef0e2" stroke="#88994f"/>
+    <text x="52" y="88" text-anchor="middle" font-weight="700">EEG</text>
+    <text x="52" y="103" text-anchor="middle" font-size="9">17 ch × 3 s</text>
+    <text x="52" y="115" text-anchor="middle" font-size="9">0.5–40 Hz, 250 Hz</text>
+
+    <rect x="128" y="66" width="104" height="58" rx="7" fill="#eef0e2" stroke="#88994f"/>
+    <text x="180" y="88" text-anchor="middle" font-weight="700">Latency windows</text>
+    <text x="180" y="103" text-anchor="middle" font-size="9">50–700 ms</text>
+    <text x="180" y="115" text-anchor="middle" font-size="9">after clip onset</text>
+
+    <rect x="262" y="6" width="190" height="38" rx="6" fill="#fff" stroke="#88994f"/>
+    <text x="357" y="22" text-anchor="middle" font-weight="700">winfuse · 509 ridge scorers</text>
+    <text x="357" y="36" text-anchor="middle" font-size="9">18 EEG sets × 15 video models, aligned</text>
+    <rect x="262" y="52" width="190" height="38" rx="6" fill="#fff" stroke="#88994f"/>
+    <text x="357" y="68" text-anchor="middle" font-weight="700">ours77 · 77 ridge scorers</text>
+    <text x="357" y="82" text-anchor="middle" font-size="9">V-JEPA 2, S3D, CLAP, SigLIP</text>
+    <rect x="262" y="98" width="190" height="38" rx="6" fill="#fff" stroke="#88994f"/>
+    <text x="357" y="114" text-anchor="middle" font-weight="700">T2 · time-resolved encoder</text>
+    <text x="357" y="128" text-anchor="middle" font-size="9">7 × 50-ms windows, 50–400 ms</text>
+    <rect x="262" y="144" width="190" height="38" rx="6" fill="#fff" stroke="#88994f"/>
+    <text x="357" y="160" text-anchor="middle" font-weight="700">2 contrastive CNNs (h6, h10)</text>
+    <text x="357" y="174" text-anchor="middle" font-size="9">trained across all 6 people</text>
+
+    <rect x="482" y="66" width="96" height="58" rx="7" fill="#eef0e2" stroke="#88994f"/>
+    <text x="530" y="88" text-anchor="middle" font-weight="700">Rank fusion</text>
+    <text x="530" y="103" text-anchor="middle" font-size="9">~590 scorers</text>
+    <text x="530" y="115" text-anchor="middle" font-size="9">RRF + hub removal</text>
+
+    <rect x="602" y="66" width="94" height="58" rx="7" fill="#5b6635"/>
+    <text x="649" y="88" text-anchor="middle" font-weight="700" fill="#fff">Balance</text>
+    <text x="649" y="103" text-anchor="middle" font-size="9" fill="#fff">CSLS k=2</text>
+    <text x="649" y="115" text-anchor="middle" font-size="9" fill="#fff">Sinkhorn → ranking</text>
+  </g>
+  <g stroke="#5b6635" stroke-width="1.4" fill="none" marker-end="url(#a)">
+    <path d="M100,95 H126"/>
+    <path d="M232,95 C246,95 246,25 260,25"/><path d="M232,95 C246,95 246,71 260,71"/>
+    <path d="M232,95 C246,95 246,117 260,117"/><path d="M232,95 C246,95 246,163 260,163"/>
+    <path d="M452,25 C467,25 467,95 480,95"/><path d="M452,71 C467,71 467,95 480,95"/>
+    <path d="M452,117 C467,117 467,95 480,95"/><path d="M452,163 C467,163 467,95 480,95"/>
+    <path d="M578,95 H600"/>
+  </g>
+</svg>
+
+<ul>
+  <li><b>Preprocessing:</b> band-pass 0.5–40 Hz (Butterworth, zero-phase), 50 Hz notch, downsample to 250 Hz, per-channel z-score from each person's training recordings.</li>
+  <li><b>Video features:</b> frozen pretrained models embed the candidate videos (AlexNet, ResNet-50, CLIP, DINOv2, SigLIP, VideoMAE, V-JEPA 2, S3D, CLAP, Whisper and others; exact versions in <code>MODELS.md</code>).</li>
+  <li><b>Scorers:</b> ridge regressions map windowed EEG to video features (PCA 150/256, penalty by 5-fold CV). For each person, other people's EEG is aligned into that person's channel space using the 695 videos everyone watched, then pooled.</li>
+  <li><b>Networks:</b> per-person 17→32 spatial layer, 3-layer temporal CNN, one head per video embedding; symmetric InfoNCE, AdamW, 40 epochs, 5 seeds; 6 and 10 heads.</li>
+  <li><b>Fusion and balancing:</b> scores are fused by reciprocal rank with hub correction. CSLS removes "hub" videos, and Sinkhorn makes each video win about once across a person's 102 recordings.</li>
+</ul>
+<div class="formula">score = 0.85 × C10 blend + 0.075 × network h6 + 0.075 × network h10  →  CSLS (k=2)  →  Sinkhorn (3 iter., τ=0.5)
+C10 blend = 0.85 × (509/586 × winfuse + 77/586 × ours77) + 0.15 × T2</div>
+<p class="small">All settings were chosen by cross-validation on held-out training videos. Python 3.11, NumPy, SciPy, scikit-learn, PyTorch 2.4. Weights: release <code>v1.0</code>. Docker: <code>ghcr.io/sushruths04/neurobytes</code>.</p>
+
+<div class="page2"></div>
+<h2>2. Results</h2>
+<div class="two">
+<div>
+<table>
+  <tr><th>How the score was built</th><th class="n">Top-1</th><th class="n">Top-5</th></tr>
+  <tr><td>Ridge baseline (one embedding)</td><td class="n">11.0</td><td class="n">29.7</td></tr>
+  <tr><td>winfuse: 509 latency-window scorers</td><td class="n">23.0</td><td class="n">52.5</td></tr>
+  <tr><td>+ 77 video-model scorers</td><td class="n">26.5</td><td class="n">57.4</td></tr>
+  <tr><td>+ hub correction (CSLS)</td><td class="n">30.9</td><td class="n">62.3</td></tr>
+  <tr><td>+ alignment, T2, Sinkhorn</td><td class="n">32.6</td><td class="n">66.7</td></tr>
+  <tr class="hl"><td>+ two contrastive networks (C13)</td><td class="n">36.0</td><td class="n">67.2</td></tr>
+</table>
+</div>
+<div>
+<table>
+  <tr><th>Participant</th><th class="n">Top-1</th><th class="n">Top-5</th></tr>
+  <tr><td>sub-01</td><td class="n">49.0</td><td class="n">73.5</td></tr>
+  <tr><td>sub-02</td><td class="n">32.4</td><td class="n">68.6</td></tr>
+  <tr><td>sub-03</td><td class="n">26.5</td><td class="n">57.8</td></tr>
+  <tr><td>sub-04</td><td class="n">36.3</td><td class="n">68.6</td></tr>
+</table>
+<table>
+  <tr><th>Robustness</th><th class="n">Top-1</th><th class="n">Top-5</th></tr>
+  <tr><td>Without Sinkhorn</td><td class="n">32.35</td><td class="n">66.67</td></tr>
+  <tr><td>Five new network seeds</td><td class="n">34.31</td><td class="n">67.65</td></tr>
+  <tr><td>Same-seed rebuild</td><td class="n" colspan="2">bit-identical</td></tr>
+</table>
+</div>
+</div>
+<p>Where the true video lands: rank 1 in 36.0% of recordings, rank 2 in 10.3%, ranks 3–5 in 20.8%, ranks 6–10 in 16.9%, beyond rank 10 in 15.9%.</p>
+
+<h2>3. Failure cases</h2>
+<ul>
+  <li><b>Near misses dominate.</b> About half of the misses still have the correct video in the top 5. The model usually finds the right neighbourhood, and the noise in a single recording decides the last step.</li>
+  <li><b>Misses are noise, not hard videos.</b> Per-video difficulty barely correlates between people (r = 0.16), so no fixed set of videos fails for everyone.</li>
+  <li><b>One participant is harder.</b> sub-03 reaches 26.5% / 57.8%, against 32–49% / 69–74% for the others, because of lower signal quality. Four targeted fixes all lowered accuracy, so none was kept.</li>
+  <li><b>Late signal is unusable.</b> Decoding from any window after about 800 ms is at chance, even when locked to the frame on screen.</li>
+  <li><b>Approaches that did not help:</b> hard one-to-one assignment (Hungarian) instead of Sinkhorn, banded ridge, pooling other people's EEG without alignment (−7.05 points), larger seed and window ensembles, per-person network fine-tuning, and caption features.</li>
+</ul>
+
+<h2>4. Lessons learned</h2>
+<ul>
+  <li><b>When to look matters more than model size.</b> Restricting the EEG to 50–400 ms was the largest single gain (winfuse top-5 39.95% → 47.30%). Mid-level CNN layers (ResNet-50 layer 3, AlexNet fc6) match this window better than the outputs of larger models.</li>
+  <li><b>Use the structure of the task.</b> Each video is watched once, so balancing the score matrix with Sinkhorn added 6.13 points of top-5 without touching the EEG.</li>
+  <li><b>Correct for hubs and fuse ranks.</b> Rank fusion lets hundreds of scorers be combined without calibration. CSLS added 4.4 points of top-1.</li>
+  <li><b>Learn across people only after aligning them.</b> Every head mixes the brain's signals differently. Aligned pooling helps every participant; raw pooling hurts.</li>
+  <li><b>Many simple models beat one complex one.</b> About 590 closed-form ridge scorers and two small CNNs, chosen on validation, gave a stable result that rebuilds bit-identically.</li>
+</ul>
+
+<p class="small" style="margin-top:12pt">Reproduce: <code>python combo/c13.py --dev</code> (seconds, shipped component scores) · <code>python scripts/reproduce_c13.py --data &lt;challenge folder&gt;</code> (networks recomputed from raw EEG) · full rebuild: <code>PIPELINE.md</code>. Web UI: <code>ghcr.io/sushruths04/neurobytes-web</code>.</p>
+
+</body>
+</html>
