@@ -21,7 +21,7 @@ export DATA=/path/to/eeg-mind-reading-challenge   # official folder with trn/, t
 
 ## 1. Stimulus features
 
-We never ship videos or frames. Two options:
+The videos and extracted video frames are not shipped. Two options:
 
 - **Download (recommended):** release `v1.0` contains:
   - our video/audio features (`outputs/mindread_features`);
