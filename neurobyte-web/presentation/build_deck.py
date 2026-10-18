@@ -261,7 +261,7 @@ STEPS = [
     ("01", "Record", "3 s of EEG while a clip plays"),
     ("02", "Window", "0–700 ms after the clip starts"),
     ("03", "Decode", "EEG → V-JEPA, CLIP, DINOv2, audio…"),
-    ("04", "Fuse", "rank fusion of ~650 scorers"),
+    ("04", "Fuse", "rank fusion of ~590 scorers"),
     ("05", "Balance", "CSLS hub removal + Sinkhorn"),
 ]
 sy = 2.0
@@ -274,7 +274,7 @@ for i, (n, t, d) in enumerate(STEPS):
 # features grid (right)
 FEATURES = [
     ("EEG Moments data", "6 people, 17 channels over the back of the head, ~1,000 training clips each, 102 test clips."),
-    ("~650 brain-to-video scorers", "Ridge decoders over latency windows × deep video features, plus a contrastive net across people."),
+    ("~590 brain-to-video scorers", "Ridge decoders over latency windows × deep video features, plus two contrastive nets across people."),
     ("Cognitive grounding", "The decodable signal sits in the first 800 ms — the classic visual ERP window."),
     ("Validated on held-out data", "Every weight is chosen on held-out training videos; the test set only measures the result."),
 ]

@@ -8,7 +8,7 @@ Hi, we're team NeuroBytes: Sushruth Shivaraju and Ayush Shetty. Our question was
 
 ## Slide 2 — Three seconds, five steps (0:40–1:35)
 
-Here's how it works, in five steps. First, record: three seconds of EEG while a clip plays. Second, window: we only look at the first 700 milliseconds after the clip starts; more on why in a moment. Third, decode: we map the EEG onto features from deep video models like V-JEPA, CLIP and DINOv2, plus audio. Fourth, fuse: about 650 separate scorers each produce a ranking, and we combine them by rank, so they never need to be calibrated against each other. Fifth, balance: we remove "hub" videos that look like a match for everything, and use Sinkhorn so each video is picked roughly once. Every setting was chosen on held-out training videos. The test set was only used to measure the result.
+Here's how it works, in five steps. First, record: three seconds of EEG while a clip plays. Second, window: we only look at the first 700 milliseconds after the clip starts; more on why in a moment. Third, decode: we map the EEG onto features from deep video models like V-JEPA, CLIP and DINOv2, plus audio. Fourth, fuse: about 590 separate scorers each produce a ranking, and we combine them by rank, so they never need to be calibrated against each other. Fifth, balance: we remove "hub" videos that look like a match for everything, and use Sinkhorn so each video is picked roughly once. Every setting was chosen on held-out training videos. The development labels were used only to report results and to compare the final candidates.
 
 ## Slide 3 — From 11% to 35% top-1 (1:35–2:15)
 

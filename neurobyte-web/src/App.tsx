@@ -467,16 +467,16 @@ function Hero({ model }: { model: ModelId }) {
 
 const FEATURES = [
   { title: "EEG Moments data", text: "6 people, 17 channels over the back of the head, ~1,000 training clips each, 102 test clips averaged over repeats." },
-  { title: "~650 brain-to-video scorers", text: "Ridge decoders over latency windows × deep video features, plus a contrastive neural network trained across people." },
+  { title: "~590 brain-to-video scorers", text: "Ridge decoders over latency windows × deep video features, plus two contrastive neural networks trained across people." },
   { title: "Cognitive grounding", text: "The decodable signal sits in the first 800 ms, the classic visual ERP window. We tested 63 brain-defined attributes against it." },
-  { title: "Validated on held-out data", text: "Every weight is chosen on held-out training videos; the test set is only used to measure the result." },
+  { title: "Validated on held-out data", text: "Every weight is chosen on held-out training videos; the development labels are used only to report results and compare the final candidates." },
 ];
 
 const STEPS = [
   ["Record", "3 s of EEG while a clip plays"],
   ["Window", "0–700 ms after the clip starts"],
   ["Decode", "EEG → V-JEPA, CLIP, DINOv2, audio…"],
-  ["Fuse", "rank fusion of ~650 scorers"],
+  ["Fuse", "rank fusion of ~590 scorers"],
   ["Balance", "CSLS hub removal + Sinkhorn"],
 ];
 
