@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+/* Dark: web2 ("web2_hex": void black, violet → blue → cyan light, amber sparks). Light: tea green
+   ("earth_tones_hex", below). Values from ../color-scheme.json, mapped onto
+   the semantic tokens the components use. The comment on each line names the
+   palette entry; theme.test.ts checks every value against the JSON and against
+   src/theme.ts (used for canvas and SVG).
+   Note: with a colour named `base`, `text-base` renders base-COLOURED (invisible) text.
+   Never use it for font size (use text-[1rem]); for base-coloured text use
+   `text-(--color-base)`. */
+@theme {
+  --color-base: #000000; /* void */
+  --color-surface: #000000; /* void */
+  --color-overlay: #12121c; /* ink_raised */
+  --color-muted: #92929f; /* muted */
+  --color-subtle: #b4b4c2; /* mist */
+  --color-text: #f5f4fa; /* text */
+  --color-love: #ffbe62; /* amber */
+  --color-gold: #ffbe62; /* amber */
+  --color-rose: #20d9ff; /* cyan */
+  --color-pine: #356cff; /* blue */
+  --color-foam: #20d9ff; /* cyan */
+  --color-iris: #8052ff; /* violet_aa */
+  --color-on-iris: #ffffff; /* white */
+  --color-highlight-low: #0a0a12; /* ink */
+  --color-highlight-med: #1b1b26; /* line */
+  --color-highlight-high: #2c2c3a; /* line_strong */
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --animate-pulse-soft: pulse-soft 2.4s ease-in-out infinite;
+  --animate-flow: flow 1.6s linear infinite;
+  --animate-fade-in: fade-in 0.4s ease-out both;
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+  }
+  @keyframes flow {
+    to { stroke-dashoffset: -24; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* Light mode: same tokens, light end of the scheme. Set by the theme toggle
+   (data-theme on <html>); Tailwind utilities read these variables. */
+:root[data-theme="light"] {
+  --color-base: #fefae0; /* cornsilk.500 */
+  --color-surface: #fffdf3; /* cornsilk.800 */
+  --color-overlay: #e9edc9; /* beige.500 */
+  --color-muted: #5b6635; /* tea_green.200 */
+  --color-subtle: #5b6635; /* tea_green.200 */
+  --color-text: #2d331a; /* tea_green.100 */
+  --color-love: #64411f; /* light_bronze.200 */
+  --color-gold: #533e08; /* papaya_whip.100 */
+  --color-rose: #96622e; /* light_bronze.300 */
+  --color-pine: #88994f; /* tea_green.300 */
+  --color-foam: #5d5103; /* cornsilk.100 */
+  --color-iris: #5b6635; /* tea_green.200 */
+  --color-on-iris: #fefae0; /* cornsilk.500 */
+  --color-highlight-low: #edf1d4; /* beige.600 */
+  --color-highlight-med: #ccd5ae; /* tea_green.500 */
+  --color-highlight-high: #acbb7b; /* tea_green.400 */
+  color-scheme: light;
+}
+:root { color-scheme: dark; }
+
+/* Dala style (styles.refero.design): pure black void, white type at weight 400 with
+   tight tracking for headings, ultra-light body copy, 24px radii, a single violet
+   pill for the primary action, amber for emphasis. No gradients in UI components. */
+/* width of the empty centre column the home-page spine runs through */
+:root { --spine-gutter: 160px; }
+
+@layer base {
+  html, body, #root { min-height: 100%; }
+  body {
+    @apply bg-base text-text font-sans antialiased;
+    font-feature-settings: "ss01" on, "cv05" on;
+  }
+  /* web2: a barely-there violet/cyan light wash so pure black never looks dead (dark only) */
+  :root:not([data-theme="light"]) body {
+    background-image:
+      radial-gradient(60rem 60rem at 78% -8%, rgba(136, 85, 255, 0.08), transparent 60%),
+      radial-gradient(48rem 48rem at 8% 18%, rgba(32, 217, 255, 0.05), transparent 55%);
+    background-attachment: fixed;
+  }
+  /* light mode: a soft olive / gold wash, so the frosted cards have something to show */
+  :root[data-theme="light"] body {
+    background-image:
+      radial-gradient(60rem 50rem at 85% -10%, rgba(165, 123, 16, 0.12), transparent 60%),
+      radial-gradient(50rem 45rem at -5% 30%, rgba(91, 102, 53, 0.1), transparent 60%),
+      radial-gradient(45rem 40rem at 60% 110%, rgba(150, 98, 46, 0.08), transparent 60%);
+    background-attachment: fixed;
+  }
+    h1, h2, h3 { font-weight: 300; letter-spacing: -0.03em; text-wrap: balance; }
+  h1 { letter-spacing: -0.045em; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-iris; }
+  ::selection { background: var(--color-iris); color: var(--color-on-iris); }
+}
+
+@layer components {
+  /* Glass panels: a light translucent fill and a slight blur, so the page background
+     and the neurons behind the tables stay visible. */
+  .card {
+    @apply rounded-3xl border border-highlight-med/70 bg-surface/25 backdrop-blur-[3px];
+  }
+  .card-title { @apply text-[11px] font-semibold uppercase tracking-[0.1em] text-subtle; }
+  /* web2 eyebrow: muted, wide-tracked, led by a short violet rule */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-muted;
+  }
+  .eyebrow::before { content: ""; @apply h-px w-6 bg-iris; }
+  /* web2 gradient word: violet → blue → cyan on one word (dark); flat accent in light mode */
+  .grad-word {
+    background-image: linear-gradient(100deg, var(--color-iris) 10%, var(--color-pine) 48%, var(--color-foam) 92%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  :root[data-theme="light"] .grad-word { background-image: none; color: var(--color-iris); }
+  .lead { @apply text-lg font-extralight leading-relaxed text-text; }
+  .chip { @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium; }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-iris px-4 py-2 text-[13px] font-semibold uppercase
+      tracking-[0.05em] text-on-iris transition-[transform,box-shadow,filter] duration-300 hover:-translate-y-0.5
+      hover:brightness-110 hover:shadow-[0_0_32px_-4px_rgba(136,85,255,0.7)] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-highlight-high px-4 py-2
+      text-sm font-normal text-text transition hover:border-subtle hover:bg-overlay disabled:cursor-not-allowed disabled:opacity-50;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
