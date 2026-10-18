@@ -19,7 +19,7 @@
  *   NEUROBYTES_MODELS_DIR         <model>/<sub>_pre.npy, <model>/<sub>_ranked.npy
  *   NEUROBYTES_LABEL_LOG          file that every ground-truth read is appended to
  *   NEUROBYTES_CAPTIONS           captions.json of Qwen2.5-VL video captions (display only;
- *                                 default <data>/captions.json, not shipped in the repo)
+ *                                 default <data>/captions.json, else results/captions/captions.json)
  *
  * Ground truth (tst_stim/) is served for sub-01..04 only, and every read is logged.
  */
@@ -79,9 +79,10 @@ export function resolvePaths(appDir: string, env: NodeJS.ProcessEnv = process.en
     env.NEUROBYTES_MODELS_DIR ?? modelCandidates.find((p) => isDir(p)) ?? modelCandidates[0],
   );
 
-  // Captions are derived from the stimulus videos, so like the challenge data they are not shipped.
+  // Captions (display only): a copy in the challenge folder wins, else the one shipped in the repo.
   const captionCandidates = [
     path.join(dataRoot, "captions.json"),
+    path.join(repo, "results", "captions", "captions.json"),
     path.resolve(repo, "..", "outputs", "mindread_features", "captions.json"),
     path.resolve(dataRoot, "..", "..", "..", "outputs", "mindread_features", "captions.json"),
   ];

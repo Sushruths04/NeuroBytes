@@ -70,7 +70,7 @@ The server prints which paths it is using on startup.
 | `DATA` / `NEUROBYTES_DATA_ROOT` | challenge folder with `tst/`, `tst_stim/`, `stimuli_test/` (not in this repo) | `/data` in Docker; a sibling `eeg-mind-reading-challenge` checkout natively |
 | `NEUROBYTES_SUBMISSION_DIR` | winfuse: `scores/`, `ranked/`, `weights/config.json` | `../results/winfuse` |
 | `NEUROBYTES_MODELS_DIR` | `<model>/<sub>_pre.npy` and `<sub>_ranked.npy` for C13, C10, WF | `../results/neurobytes_models` |
-| `NEUROBYTES_CAPTIONS` | `captions.json`, Qwen2.5-VL one-line captions keyed by video id (not in this repo) | `<data>/captions.json` |
+| `NEUROBYTES_CAPTIONS` | `captions.json`, Qwen2.5-VL one-line captions keyed by video id ([how they were made](../results/captions/README.md)) | `<data>/captions.json`, else `../results/captions/captions.json` |
 | `NEUROBYTES_LABEL_LOG` | audit log of any ground-truth read | `logs/label_access.log` |
 
 Endpoints (all GET, see `server/dataPlugin.ts`): `/api/manifest`, `/api/scores/<sub>`,
@@ -127,7 +127,8 @@ The web UI has **its own image**, `ghcr.io/sushruths04/neurobytes-web`, separate
 C13 inference image (`../docker/`, `ghcr.io/sushruths04/neurobytes`), which it does not change.
 `Dockerfile` here is multi-stage: a Python stage exports the C13/C10/WF matrices from the
 repo's `combo/` (and checks C13 sub-05/06 against `submissions/C13`), a Node stage builds the
-frontend, and the runtime is Node only. The challenge data and captions are **not** baked in.
+frontend, and the runtime is Node only. The challenge data is **not** baked in; the display-only
+captions (`../results/captions/`) are.
 
 ```bash
 docker pull ghcr.io/sushruths04/neurobytes-web:latest      # ready-made (linux/amd64, linux/arm64)
@@ -138,7 +139,6 @@ D=/path/to/eeg-mind-reading-challenge
 docker run --rm -p 127.0.0.1:8080:8080 -v "$D:/data:ro" -v "$PWD/out:/out" \
   ghcr.io/sushruths04/neurobytes-web
 # open http://127.0.0.1:8080
-# with captions:  -v /path/to/captions.json:/captions.json:ro -e NEUROBYTES_CAPTIONS=/captions.json
 ```
 
 On Windows PowerShell, write the mounts as `-v "${D}:/data:ro"` and `-v "${PWD}\out:/out"`.

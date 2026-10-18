@@ -34,6 +34,14 @@ The challenge requires the exact name and version of every public pretrained mod
 
 Recorded full hashes are in each bank's `manifest.json` (shipped in release `v1.0`). Some revisions above remain unpinned or incomplete; the release is not a complete version audit. The AST revision was not recorded.
 
+## Display only (not used by C13)
+
+| Output | Model | Revision |
+|---|---|---|
+| `results/captions/captions.json`: one caption per test video, shown in the web UI | `Qwen/Qwen2.5-VL-3B-Instruct` (8 frames, greedy, 48 tokens) | `66285546d2b821cf421d4f5eb2576359d3770cd3` |
+
+See [results/captions/README.md](results/captions/README.md). No C13 component reads the captions.
+
 ## Trained by us (weights released)
 
 - **Contrastive EEG networks h6 and h10** (5 seeds each): `combo/neural_clip.py`, release `v1.0`.

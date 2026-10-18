@@ -120,6 +120,7 @@ The challenge data is mounted, never included in either image. Details: [neuroby
 | `src/winfuse/` | winfuse: 509 latency-window ridge scorers + cross-subject alignment (`compare_embed/cross_subject.py`) |
 | `src/mindread/` | mindread: data loading, encoders/decoders, T2, CSLS |
 | `results/winfuse/` | aligned winfuse fused scores, frozen config, evidence |
+| `results/captions/` | Qwen2.5-VL captions of the test videos, shown in the web UI only ([how they were made](results/captions/README.md)) |
 | `combo/c10_inputs/`, `c13_inputs/` | shipped component scores used by the quickstart |
 | `submissions/` | submitted prediction files (C13 and the fallback without Sinkhorn) |
 | `scripts/` | `reproduce_c13.sh` (quickstart), `run_c13_pipeline.sh` (full rebuild), feature extraction, format check |

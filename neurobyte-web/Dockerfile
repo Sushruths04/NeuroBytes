@@ -1,6 +1,6 @@
 # neurobyte-web: the NeuroBytes web UI as its own image, separate from the C13 inference image (../docker/).
 # Build from the repo root:  docker build -f neurobyte-web/Dockerfile -t ghcr.io/sushruths04/neurobytes-web .
-# The challenge data (EEG, dev labels, videos) and captions.json are never baked in; mount them at run time.
+# The challenge data (EEG, dev labels, videos) is never baked in; mount it at run time.
 
 # 1. Per-model score matrices (C13, C10, WF) from the repo's own combo/ code and shipped inputs.
 FROM python:3.11-slim AS models
@@ -36,6 +36,8 @@ COPY --from=web /web/package.json package.json
 COPY --from=web /web/server/serve.ts /web/server/dataPlugin.ts /web/server/paths.ts server/
 COPY --from=models /models /app/models
 COPY results/winfuse /app/winfuse
+# Display-only video captions (see results/captions/README.md); found at <repo>/results/captions.
+COPY results/captions/captions.json /app/results/captions/captions.json
 RUN mkdir -p /data /out && chown node:node /out
 USER node
 EXPOSE 8080
