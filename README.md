@@ -15,24 +15,38 @@ From a 3-second, 17-channel EEG recording, rank the 102 candidate videos so that
 - **Model weights:** release `v1.0` (`c13o_weights_20261018.tar.gz`, 161 MB).
 - **Pretrained models used** (exact names and versions): [MODELS.md](MODELS.md).
 - **Report (2 pages: approach, diagram, results, failure cases, lessons learned):** [report/BierBytes_Report.pdf](report/BierBytes_Report.pdf).
+- **Web app (please run it):** see [Please build and run our web app](#please-build-and-run-our-web-app) below, with Docker.
 - **Presentation:** [presentation/BierBytes_Final.pdf](presentation/BierBytes_Final.pdf) ([PowerPoint](presentation/BierBytes_Final.pptx)), video: [presentation/BierBytes_Final.mp4](presentation/BierBytes_Final.mp4).
 
-## Explore the results in our web app
+## Please build and run our web app
 
-We warmly invite the jury to open the NeuroBytes web app. We put a lot of work into it, and it shows how and why the system works far better than tables can:
+We kindly ask the jury to build and run the NeuroBytes web app: it is an important part of our submission. We put a lot of work into it, and it shows how and why the system works far better than tables can:
 
 - **Every recording:** the predicted video next to the video actually watched, the top 5 and top 10 with captions, and the EEG with its frequency spectrum.
 - **The whole development test at a glance:** where the true video lands among the 102 candidates, and the accuracy for each person.
 - **The steps live:** switch between models (C13, C10, winfuse) and turn the balancing step on and off to see the ranking change.
 - **Why it works:** each design choice, what we measured, and the published research behind it.
 
-One command (Docker Desktop on Windows or macOS, Docker Engine on Linux), then open http://127.0.0.1:8080:
+**Steps (Docker; about 5 minutes):**
 
-```bash
-docker run --rm -p 127.0.0.1:8080:8080 -v "/path/to/eeg-mind-reading-challenge:/data:ro" ghcr.io/sushruths04/neurobytes-web
-```
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows, macOS) or Docker Engine (Linux), and start it.
+2. Download the image (linux/amd64 and linux/arm64, about 80 MB):
+   ```bash
+   docker pull ghcr.io/sushruths04/neurobytes-web:latest
+   ```
+3. Start it, with the official challenge folder mounted read-only:
+   - macOS / Linux:
+     ```bash
+     docker run --rm -p 127.0.0.1:8080:8080 -v "/path/to/eeg-mind-reading-challenge:/data:ro" ghcr.io/sushruths04/neurobytes-web
+     ```
+   - Windows (PowerShell):
+     ```powershell
+     docker run --rm -p 127.0.0.1:8080:8080 -v "C:\path\to\eeg-mind-reading-challenge:/data:ro" ghcr.io/sushruths04/neurobytes-web
+     ```
+4. Open **http://127.0.0.1:8080** in a browser. Pick a person to see every recording, the rankings and the EEG; "Why it works" explains each design choice.
+5. Stop it with `Ctrl+C` in the terminal.
 
-On Windows PowerShell, write the mount as `-v "C:\path\to\eeg-mind-reading-challenge:/data:ro"`. Without the mount the rankings still load; the mount adds the EEG traces, the videos and the dev-test labels. Details: [neurobyte-web/README.md](neurobyte-web/README.md).
+The mount adds the EEG traces, the videos and the dev-test labels; without it the rankings still load. To build the image from the source instead of pulling it: `docker build -f neurobyte-web/Dockerfile -t ghcr.io/sushruths04/neurobytes-web .` from the repository root.
 
 ## Data
 
@@ -109,15 +123,6 @@ docker run --rm -v "/path/to/eeg-mind-reading-challenge:/data:ro" -v "$PWD/out:/
 ```
 
 On Windows PowerShell, write the paths as `-v "C:\path\to\eeg-mind-reading-challenge:/data:ro"` and `-v "${PWD}\out:/out"`. To build the image yourself, see [docker/README.md](docker/README.md).
-
-**Web UI (separate image).** To browse the results (predicted videos, top 10, where the true video lands, per-person accuracy, EEG), run the second image and open http://127.0.0.1:8080:
-
-```bash
-docker pull ghcr.io/sushruths04/neurobytes-web:latest
-docker run --rm -p 127.0.0.1:8080:8080 -v "/path/to/eeg-mind-reading-challenge:/data:ro" ghcr.io/sushruths04/neurobytes-web
-```
-
-The challenge data is mounted, never included in either image. Details: [neurobyte-web/README.md](neurobyte-web/README.md).
 
 ## For the organizers
 
