@@ -389,7 +389,7 @@ CARDS = [
     ("800 ms", "The decodable signal is the onset response",
      "Decoding is strongest 50–400 ms after the clip starts, the visual P1/N1 window. Every window after ~800 ms is at chance."),
     ("CSLS", "Hubs and balance",
-     "CSLS removes each candidate's average pull; Sinkhorn makes every video win about once across the 102 recordings. Together ≈6 points of top-1."),
+     "CSLS removes each candidate's average pull; Sinkhorn makes every video win about once across the 102 recordings. In C13, CSLS alone added 4.4 points of top-1."),
     ("6 brains", "Learning across people needs alignment",
      "The 17 channels mix brain sources differently in every head. A per-person spatial map lets each person borrow the others' recordings."),
     ("V-JEPA 2", "Deep video models speak the brain's language",

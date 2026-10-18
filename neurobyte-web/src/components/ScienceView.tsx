@@ -1,16 +1,7 @@
 import { useTheme } from "../lib/themeMode";
-import { useState } from "react";
-import {
-  BENCHMARKS,
-  CITATIONS,
-  KEY_CHOICES,
-  PROGRESSION,
-  SUPPORTING,
-  type Citation,
-  type Finding,
-} from "../content/science";
+import { BENCHMARKS, CITATIONS, CLAIMS, type Citation } from "../content/science";
 import { href } from "../lib/router";
-import { ERP_TIMELINE, LATENCY, TEAM_SCIENCE, type ScienceCard } from "../content/team";
+import { LATENCY } from "../content/team";
 
 const byId = new Map(CITATIONS.map((c, i) => [c.id, { ...c, n: i + 1 }]));
 
@@ -46,47 +37,42 @@ export function ScienceView() {
         <a href={href("home")} className="text-xs text-iris hover:underline">← Back to home</a>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Why it works</h1>
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-subtle">
-          The final system, <b className="text-text">C13</b>, gets the watched video into its top 5 for{" "}
-          <b className="text-text">67.16%</b> of recordings and ranks it first for <b className="text-text">36.03%</b> (chance:
-          4.90% / 0.98%), on sub-01..04. It combines complementary decoding approaches: 509 time-windowed visual decoders,
-          multi-modal video feature encoders (motion, semantics, audio), and two contrastive convolutional networks (h6, h10).
-          Most of the accuracy came from asking what the brain signal actually is and how the task is built, not from bigger models.
+          <b className="text-text">C13</b> ranks the watched video first for <b className="text-text">36.03%</b> of recordings
+          and in the top 5 for <b className="text-text">67.16%</b> (chance: 0.98% / 4.90%), on sub-01..04. Each design choice
+          was kept only if it improved cross-validation on held-out training videos, and each rests on published findings.
         </p>
       </section>
 
-      <section aria-labelledby="team-title" className="grid gap-4">
-        <h2 id="team-title" className="text-xl font-semibold">What the brain signal can and cannot tell us</h2>
-        <div className="grid gap-4 md:grid-cols-2">
-          {TEAM_SCIENCE.map((c) => <TeamCard key={c.title} c={c} />)}
+      <section aria-labelledby="claims-title" className="grid gap-3">
+        <h2 id="claims-title" className="text-xl font-semibold">Our claims and the research behind them</h2>
+        <div className="card divide-y divide-highlight-med/60">
+          {CLAIMS.map((c, i) => (
+            <article key={c.claim} className="grid gap-2 p-5 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] md:gap-6">
+              <h3 className="flex gap-3 text-[0.98rem] font-semibold text-text">
+                <span className="font-mono text-iris">{i + 1}</span>
+                {c.claim}
+              </h3>
+              <p className="text-sm leading-relaxed text-subtle">
+                <span className="block text-[11px] font-semibold uppercase tracking-wider text-gold">We measured</span>
+                {c.measured}
+              </p>
+              <p className="text-sm leading-relaxed text-subtle">
+                <span className="block text-[11px] font-semibold uppercase tracking-wider text-gold">Research</span>
+                {c.research}<Cite ids={c.cites} />
+              </p>
+            </article>
+          ))}
         </div>
       </section>
 
       <Latency />
 
-      <section className="grid gap-1">
-        <h2 className="text-xl font-semibold">Inside winfuse: the design choices, with citations</h2>
-        <p className="text-sm text-subtle">
-          The numbers below are for winfuse on its own (submission2), before it was combined into C10–C13.
-        </p>
-      </section>
-
-      <Progression />
-
-      <section aria-labelledby="key-title" className="grid gap-4">
-        <h2 id="key-title" className="text-xl font-semibold">The four choices that made the difference</h2>
-        {KEY_CHOICES.map((f, i) => <FindingCard key={f.id} f={f} index={i + 1} />)}
-      </section>
-
-      <section aria-labelledby="sup-title" className="grid gap-4">
-        <h2 id="sup-title" className="text-xl font-semibold">Choosing the video features</h2>
-        {SUPPORTING.map((f) => <FindingCard key={f.id} f={f} />)}
-      </section>
-
       <section aria-labelledby="bench-title">
         <h2 id="bench-title" className="text-xl font-semibold">Where this sits against published work</h2>
         <p className="mt-1 text-sm text-subtle">
-          C13, the latest pipeline, against standalone Winfuse, the reference baseline for this data and the closest published system. This is not a like-for-like comparison: it is a different dataset, 102 candidates rather than 200, and video rather than still images. It is a sanity check on the order of magnitude.
-          More recent contrastive systems report higher numbers on the image task (NeuroCLIP: 63.2% top-1, 200-way)<Cite ids={["neuroclip"]} />.
+          The comparison with NICE is not like-for-like: a different dataset, 102 candidates rather than 200, and video rather
+          than still images. It is a check on the order of magnitude. More recent contrastive systems report higher numbers on
+          the image task (NeuroCLIP: 63.2% top-1, 200-way)<Cite ids={["neuroclip"]} />.
         </p>
         <div className="card mt-4 overflow-x-auto">
           <table className="w-full min-w-[560px] text-left text-sm">
@@ -108,58 +94,7 @@ export function ScienceView() {
       </section>
 
       <References />
-
-      <p className="pb-4 text-[11px] text-subtle">
-        Source: <code className="font-mono">submission2/WHY_IT_WORKS.md</code> (full detail, including where these results disagree with the mindread pipeline).
-        Every number on this page is taken from that document or from <code className="font-mono">submission2/README.md</code>.
-      </p>
     </main>
-  );
-}
-
-function TeamCard({ c }: { c: ScienceCard }) {
-  return (
-    <article className={`card p-5 ${c.big ? "md:col-span-2" : ""}`}>
-      <p className="font-mono text-2xl font-semibold text-iris">{c.num}</p>
-      <h3 className="mt-1 text-[1.05rem] font-semibold text-text">{c.title}</h3>
-      {c.paragraphs.map((p) => (
-        <p key={p} className="mt-2 text-sm leading-relaxed text-subtle">{p}</p>
-      ))}
-      {c.num === "800 ms" && <ErpTimeline />}
-      {c.tiles && (
-        <div className="mt-3 grid gap-2 sm:grid-cols-3">
-          {c.tiles.map(([k, v]) => (
-            <div key={k} className="rounded-xl bg-highlight-low px-3 py-2.5">
-              <p className="text-sm font-semibold text-text">{k}</p>
-              <p className="mt-0.5 text-xs text-subtle">{v}</p>
-            </div>
-          ))}
-        </div>
-      )}
-      {c.after && <p className="mt-3 text-sm leading-relaxed text-subtle">{c.after}</p>}
-      {c.bullets && (
-        <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-subtle">
-          {c.bullets.map((b) => <li key={b}>{b}</li>)}
-        </ul>
-      )}
-    </article>
-  );
-}
-
-/** #22: what each latency band of the visual response carries (team site). */
-function ErpTimeline() {
-  return (
-    <ol className="mt-3 grid gap-2 sm:grid-cols-5" aria-label="Visual ERP timeline">
-      {ERP_TIMELINE.map(([t, d], i) => (
-        <li
-          key={t}
-          className={`rounded-xl px-3 py-2.5 ${i === ERP_TIMELINE.length - 1 ? "border border-dashed border-highlight-high" : "bg-highlight-low"}`}
-        >
-          <p className="font-mono text-sm font-semibold text-text">{t}</p>
-          <p className="mt-0.5 text-xs text-subtle">{d}</p>
-        </li>
-      ))}
-    </ol>
   );
 }
 
@@ -204,83 +139,6 @@ function Latency() {
   );
 }
 
-function FindingCard({ f, index }: { f: Finding; index?: number }) {
-  const [open, setOpen] = useState(false);
-  const panel = `finding-${f.id}`;
-  return (
-    <article className="card p-5">
-      <div className="flex flex-wrap items-start gap-4">
-        {index !== undefined && (
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-iris font-bold text-on-iris">{index}</span>
-        )}
-        <div className="min-w-0 flex-1">
-          <h3 className="text-[1.05rem] font-semibold text-text">{f.title}</h3>
-          <p className="mt-1.5 text-sm leading-relaxed text-text/90">{f.plain}</p>
-        </div>
-      </div>
-
-      <div className="mt-4 rounded-xl border-l-2 border-gold/70 bg-base/40 px-4 py-3">
-        <p className="text-[11px] font-semibold uppercase tracking-wider text-gold">Why the research predicts this</p>
-        <p className="mt-1 text-sm leading-relaxed text-subtle">{f.why}<Cite ids={f.cites} /></p>
-      </div>
-
-      <p className="mt-3 text-sm text-text/90"><span className="font-semibold text-iris">Takeaway: </span>{f.takeaway}</p>
-
-      <button
-        type="button"
-        className="mt-3 text-xs text-iris hover:underline"
-        aria-expanded={open}
-        aria-controls={panel}
-        onClick={() => setOpen((o) => !o)}
-      >
-        {open ? "Hide" : "Show"} measurements
-      </button>
-      {open && (
-        <ul id={panel} className="mt-2 list-disc space-y-1 pl-5 font-mono text-[11px] leading-relaxed text-subtle animate-fade-in">
-          {f.measured.map((m) => <li key={m}>{m}</li>)}
-        </ul>
-      )}
-    </article>
-  );
-}
-
-function Progression() {
-  const { t } = useTheme();
-  const min = 30, max = 62;
-  const W = 720, H = 210, padL = 36, padB = 26, padT = 12;
-  const padR = 44;
-  const x = (i: number) => padL + (i / (PROGRESSION.length - 1)) * (W - padL - padR);
-  const y = (v: number) => padT + (1 - (v - min) / (max - min)) * (H - padT - padB);
-  const d = PROGRESSION.map((p, i) => `${i ? "L" : "M"}${x(i)},${y(p.top5)}`).join(" ");
-  return (
-    <section className="card p-5" aria-labelledby="prog-title">
-      <h2 id="prog-title" className="card-title">How the top-5 accuracy was built up</h2>
-      <p className="mt-1 text-xs text-subtle">Pooled top-5 on sub-01..04 after each change (from submission2/README.md).</p>
-      <svg viewBox={`0 0 ${W} ${H}`} className="mt-3 w-full" role="img"
-        aria-label={`Top-5 rose from ${PROGRESSION[0].top5}% to ${PROGRESSION.at(-1)!.top5}%; the biggest jumps were latency windows and the Sinkhorn bijection.`}>
-        {[30, 40, 50, 60].map((v) => (
-          <g key={v}>
-            <line x1={padL} x2={W - padR} y1={y(v)} y2={y(v)} stroke={t["highlight-med"]} strokeDasharray="2 4" />
-            <text x={padL - 6} y={y(v) + 3} textAnchor="end" fontSize="10" fill={t.subtle}>{v}%</text>
-          </g>
-        ))}
-        <path d={d} fill="none" stroke={t.iris} strokeWidth="2.5" />
-        {PROGRESSION.map((p, i) => (
-          <g key={i}>
-            <circle cx={x(i)} cy={y(p.top5)} r={p.step ? 5 : 3} fill={p.step ? t.foam : t["highlight-high"]} />
-            {p.step && (
-              <>
-                <text x={x(i)} y={y(p.top5) - 10} textAnchor="middle" fontSize="10" fill={t.text} fontFamily="ui-monospace, monospace">{p.top5}%</text>
-                <text x={x(i)} y={H - 8} textAnchor="middle" fontSize="10" fill={t.subtle}>{p.step}</text>
-              </>
-            )}
-          </g>
-        ))}
-      </svg>
-    </section>
-  );
-}
-
 function References() {
   return (
     <section aria-labelledby="refs-title">
@@ -294,8 +152,6 @@ function References() {
                 {c.authors && <span>{c.authors} </span>}
                 <a href={c.url} target="_blank" rel="noopener noreferrer" className="font-medium text-foam hover:underline">{c.title}</a>
                 {c.venue && <span className="text-subtle">. {c.venue}</span>}
-                {c.checked === "verified" && <span className="chip ml-2 bg-pine/25 text-foam">verified against full text</span>}
-                {c.checked === "abstract" && <span className="chip ml-2 bg-overlay text-subtle">read at abstract level</span>}
               </p>
               <p className="mt-0.5 text-subtle">{c.role}</p>
             </div>

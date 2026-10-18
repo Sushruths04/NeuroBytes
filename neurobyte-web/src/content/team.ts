@@ -85,7 +85,7 @@ export const EXPERIMENTS: Experiment[] = [
     "id": "Per-person",
     "what": "Per-person fine-tuning (C14); per-person fusion weights",
     "val": "fine-tune: network 6/6 better; weights unstable",
-    "dev": "C14 34.1 vs C13 35.3 (seed noise)",
+    "dev": "C14 34.1 vs earlier C13 35.3 (seed noise)",
     "verdict": "tie / rejected",
     "kind": "neu"
   },
@@ -248,7 +248,7 @@ export const TEAM_SCIENCE: ScienceCard[] = [
     num: "CSLS",
     title: "Hubs and balance",
     paragraphs: [
-      "Some videos look similar to everything and win too often (hubs). CSLS removes each candidate's average pull; Sinkhorn makes every video win about once across the 102 recordings. Together they added about 6 points of top-1.",
+      "Some videos look similar to everything and win too often (hubs). CSLS removes each candidate's average pull; Sinkhorn makes every video win about once across the 102 recordings. In C13, CSLS alone added 4.4 points of top-1.",
     ],
   },
   {
@@ -258,7 +258,7 @@ export const TEAM_SCIENCE: ScienceCard[] = [
     bullets: [
       "More repeats per training clip (cleaner targets)",
       "Larger contrastive models pretrained on public EEG",
-      "Per-person spatial filters from the 127-channel original montage",
+      "Per-person spatial filters from a denser electrode montage",
     ],
   },
 ];

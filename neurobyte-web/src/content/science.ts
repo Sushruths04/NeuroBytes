@@ -108,12 +108,63 @@ export const KEY_CHOICES: Finding[] = [
 export const SUPPORTING: Finding[] = [
   {
     id: "layers",
-    title: "Mid-level CNN layers beat large transformers",
+    title: "In winfuse, mid-level CNN layers beat large transformers",
     plain: "The video features that match EEG best come from the middle of older image networks (ResNet-50 layer 3, AlexNet fc6/fc7), not from the final output of the biggest modern models.",
     measured: ["Top validation scorers: resnet50 layer3 (MRR 0.2016), alexnet fc6 (0.1984), alexnet fc7, ahead of DINOv2, CLIP and VideoMAE pooled outputs.", "Treating each layer as its own representation: +2.45 pp over pooled outputs."],
     why: "Brain and network line up stage by stage. Early layers match early responses and deeper layers match later ones (Cichy et al. 2016 with MEG; the same ordering has been shown in EEG). We decode 50–400 ms, which is where mid-level visual representations live, so mid-level layers are the right partner.",
     takeaway: "Model size is the wrong axis. What matters is the level of abstraction that matches the time window you can decode.",
     cites: ["cichy2016", "eegdnn2020"],
+  },
+];
+
+/**
+ * The "Why it works" page: one row per design claim, with our measurement and the
+ * published research it rests on. Measurements: RESULTS.md (C13 build-up) and the
+ * winfuse findings above; latency from team.ts LATENCY.
+ */
+export interface Claim {
+  claim: string;
+  measured: string;
+  research: string;
+  cites: string[];
+}
+
+export const CLAIMS: Claim[] = [
+  {
+    claim: "The decodable signal is the early visual response",
+    measured: "Best single window 50–400 ms after onset (mean rank 27.1 of 102); windows after about 800 ms are near chance (51.5).",
+    research: "The early visual components P1 (80–130 ms) and N1 (120–200 ms); object categories separate at 130–170 ms.",
+    cites: ["rossion2003", "dirusso", "luck"],
+  },
+  {
+    claim: "Mid-level visual features match that window",
+    measured: "The best video features are mid-level CNN layers (ResNet-50 layer 3, AlexNet fc6), ahead of the pooled outputs of larger models.",
+    research: "Network depth maps onto response latency: earlier layers match earlier brain responses, in MEG and in EEG.",
+    cites: ["cichy2016", "eegdnn2020"],
+  },
+  {
+    claim: "Hub videos have to be corrected",
+    measured: "Hubness correction (CSLS) added 4.4 points of top-1 in C13 (26.5% → 30.9%).",
+    research: "In high dimensions a few points become everyone's nearest neighbour; hubness-corrected similarity such as CSLS is recommended for cross-modal and cross-lingual retrieval.",
+    cites: ["radovanovic2010", "hubclip2025", "hubling"],
+  },
+  {
+    claim: "Each video plays once, so the scores are balanced",
+    measured: "Sinkhorn balancing of the 102 × 102 score matrix raised winfuse top-5 from 53.43% to 59.56%.",
+    research: "Sinkhorn row/column scaling is the core computation of entropic optimal transport; its convergence is well studied.",
+    cites: ["cuturi2013", "sinkeff"],
+  },
+  {
+    claim: "Rankings, not raw scores, are fused",
+    measured: "509 scorers with different score scales are combined by reciprocal rank fusion; with hubness correction it is the best fusion tested.",
+    research: "Reciprocal rank fusion outperforms Condorcet fusion and learned rank combination, and needs no score calibration.",
+    cites: ["cormack2009"],
+  },
+  {
+    claim: "People can be pooled only after alignment",
+    measured: "Aligned pooling: +0.98 points of top-5 on the dev test, every participant improved. Pooling without alignment: −7.05 points on validation.",
+    research: "Functional alignment (hyperalignment): people share information but encode it in individual layouts.",
+    cites: ["haxby2020", "hybridhyper", "crosssub2026"],
   },
 ];
 

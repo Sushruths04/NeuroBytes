@@ -69,7 +69,7 @@ export const MODELS: ModelInfo[] = [
     id: "WF",
     name: "WF",
     short: "WF",
-    adds: "winfuse pipeline (submission2) on its own",
+    adds: "winfuse pipeline on its own",
     formula: "509 ridge scorers, rank fusion + hubness, equal weights → Sinkhorn",
     scorers: "509 ridge scorers (EEG windows × video embeddings)",
     cslsK: null,

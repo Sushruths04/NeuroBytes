@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
-import { BENCHMARKS, CITATIONS, KEY_CHOICES, PROGRESSION, SUPPORTING } from "./science";
+import { BENCHMARKS, CITATIONS, CLAIMS, KEY_CHOICES, PROGRESSION, SUPPORTING } from "./science";
 import { MODELS } from "./models";
 import { PATHS } from "../../test/fixtures";
 
@@ -22,6 +22,7 @@ describe("science content", () => {
     const inline = [...view.matchAll(/ids=\{\[([^\]]*)\]\}/g)].flatMap((m) => [...m[1].matchAll(/"([\w-]+)"/g)].map((x) => x[1]));
     const used = [
       ...findings.flatMap((f) => f.cites),
+      ...CLAIMS.flatMap((c) => c.cites),
       ...BENCHMARKS.flatMap((b) => [..."cite" in b && b.cite ? [b.cite] : [], ..."taskCite" in b && b.taskCite ? [b.taskCite] : []]),
       ...inline,
     ];
